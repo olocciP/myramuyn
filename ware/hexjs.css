@@ -1,0 +1,13 @@
+body {
+  color: #dae;
+  width: 100%;
+  height: 100%;
+}
+
+svg {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}

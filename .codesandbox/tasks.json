@@ -8,8 +8,15 @@
       "name": "Run",
       "command": "go run main.go",
       "runAtStart": true,
+      "preview": {
+        "port": 8080
+      },
       "restartOn": {
-        "files": ["./main.go"]
+        "files": [
+          "./main.go"
+        ],
+        "branch": false,
+        "resume": false
       }
     }
   }
