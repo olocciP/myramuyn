@@ -52,42 +52,35 @@
 
       /*/ <-- Mouse & Touch client x, y /*/
       const cxyo = function () {
-        this.e = { start: '', move: '', end: '' };
+        this.mob = navigator.userAgentData.mobile;
+        this.type = { start: '', move: '', end: '' };
         this.xya = [ /*/{ x: 0, y: 0 } /*/ ];
         this.popu = () => this.xya.length > 0 ? this.xya.pop() : null;
         
         this.eventu = v => {
           const { b, n } = v; /*/ b: boolean, n: number /*/
 
+          const addue = e => addu({ e: e });
+          const addu = v => {
+            const { e } = v;
+
+            if(this.xya.length > n && n) this.popu();
+            this.xya.unshift({ x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY });
+          }
+
           if(b){
-            v.m = navigator.userAgentData.mobile;
-            if(v.m) {
-              this.e.start = 'touchstart';
-              this.e.move = 'touchmove';
-              this.e.end = 'touchend';
+            this.type.start = this.mob ? 'touchstart' : 'mousedown';
+            this.type.move = this.mob ? 'touchmove' :'mousemove';
+            this.type.end = this.mob ? 'touchend' : 'mouseup';
 
-            } else {
-              this.e.start = 'mousedown';
-              this.e.move = 'mousemove';
-              this.e.end = 'mouseup';
-            }
-    
-            const addue = e => addu({ e: e });
-            const addu = v => {
-              const { e } = v;
-
-              if(this.xya.length > n && n) this.popu();
-              this.xya.unshift({ x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY });
-            }          
-            
-            document.addEventListener(this.e.start, addue);
-            document.addEventListener(this.e.move, addue);
-            document.addEventListener(this.e.end, addue);
+            document.addEventListener(this.type.start, addue);
+            document.addEventListener(this.type.move, addue);
+            document.addEventListener(this.type.end, addue);
 
           } else {
-            document.removeEventListener(this.e.start, addue);
-            document.removeEventListener(this.e.move, addue);
-            document.removeEventListener(this.e.end, addue);
+            document.removeEventListener(this.type.start, addue);
+            document.removeEventListener(this.type.move, addue);
+            document.removeEventListener(this.type.end, addue);
           }
         }
       };
