@@ -52,6 +52,11 @@
 
       /*/ <-- Mouse & Touch client x, y /*/
       const cxyo = function () {
+        this.wh = { 
+          w: window.innerWidth || document.body.clientWidth, 
+          h: window.innerHeight || document.body.clientHeight, 
+          r: window.devicePixelRatio || 1 
+        }; 
         this.mob = navigator.userAgentData.mobile;
         this.type = { start: '', move: '', end: '' };
         this.xya = [ /*/{ x: 0, y: 0 } /*/ ];
@@ -63,6 +68,7 @@
           const addue = e => addu({ e: e });
           const addu = v => {
             const { e } = v;
+            if(this.mob && !e.touches.length) return;
 
             if(this.xya.length > n && n) this.popu();
             this.xya.unshift({ x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY });
