@@ -116,16 +116,39 @@
           'plain': 'text/plain' 
         }
 
-        this.file = async(v) => {
+        this.file = async v => {
           const { u, n, m } = v; /*/ u: string, n: string, m: string /*/
 
           v.m = '';
-          v.r = await fetch ([u, n].join('/') /*/ url /*/);
-          v.d = await v.r.text().then(e => {
+          v.p = await fetch ([u, n].join('/') /*/ url /*/);
+          v.d = await v.p.text().then(e => {
             return new DOMParser().parseFromString(e, mimeu[m]);
           });
          
           mineu['svg+xml']({ d: v.d });
+
+
+          /// x m l
+          // plot.prototype.xml = async k => {
+          //   // file xml
+          //   const loader = new FileLoader();
+          //   k.xml = await loader.loadAsync(k.file); /// xml
+
+          //   return xmlPaser(k); /// file
+          // };
+
+          // const xmlPaser = (...a) => {
+          //   /// [{ xml: obj }]
+          //   a.push({});
+          //   a[1].parser = new DOMParser();
+          //   a[1].xmlDoc = a[1].parser.parseFromString(a[0].xml, 'text/xml');
+
+          //   a[1].story = a[1].xmlDoc.querySelector('story'); // 스토리는 몇 개의 시퀀스로 나타낸다
+          //   a[1].value = JSON.parse(a[1].story.childNodes[0].nodeValue); // tagName은 'story'를 나타낸다
+          //   for (let name in a[1].value) {
+          //     story[name] = a[1].value[name];
+          //     // if (value.hasOwnProperty(name)) { }
+          //   }
         }
       };
       /*/ --> get server file /*/
