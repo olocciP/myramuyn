@@ -135,7 +135,7 @@
     /*/ --> Modules Function Structure /*/
 
     /*/ <-- Modules Function Define /*/
-    let mc = {}; /*/ Modules Cache /*/
+    const mc = {}; /*/ Modules Cache /*/
     const req = (id) => {
       /*/ REQuire /*/
       // let cachedModule = mc[id];
@@ -202,5 +202,5 @@
     /*/ --> Modules Function Define /*/
 
     return es;
-    })();}
+  })();}
 );

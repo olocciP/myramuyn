@@ -11,11 +11,9 @@ import (
 )
 
 var printu = fmt.Println
-func ternaryu[T any](cond bool, vtrue, vfalse T) T {
-    if cond { 
-		return vtrue 
-	}
-    return vfalse
+func ternaryu[T any](i int, req, res T) T {
+  if i == 0 { return res }
+	return req
 }
 
 func main() {
@@ -33,9 +31,9 @@ func main() {
 func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 	lp := filepath.Join("work", "layout.html")
 
-	u := ternaryu(s.Contains(r.URL.Path, ".html"), r.URL.Path, "index.html")
-	fp := filepath.Join("work", filepath.Clean(u))
-
+	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path, "index.html")
+	fp := filepath.Join("ware/page", filepath.Clean(u))
+	
 	/*/ Return a 404 if the template doesn't exist /*/
 	info, err := os.Stat(fp)
 	if err != nil {
