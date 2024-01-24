@@ -18,6 +18,7 @@
       req.d(es, {
         cxyo: /*/ Mouse & Touch client x, y /*/ () => im.cxyo, 
         geto: /*/ Get server file xml, json, svg /*/ () => im.geto,
+        pageo: /*/ Set Page  /*/ () => im.pageo,
         // Play: (/*/ Imported Module /*/) => im.Play,
         // Page: (/*/ Imported Module /*/) => im.Page,
         // Part: (/*/ Imported Module /*/) => im.Part,
@@ -43,7 +44,7 @@
       req.d(es, {
         cxyo: () => cxyo,
         geto: () => geto,
-        // Page: () => Page,
+        pageo: () => Pageo,
         // Part: () => Part,
         // Pack: () => Pack,
         // Plot: () => Plot,
@@ -70,7 +71,8 @@
             const { e } = v;
 
             if(this.xya.length > n && n) this.popu();
-            this.xya.unshift({ x: this.mob ? e.touches[0].clientX : e.clientX , y: this.mob ? e.touches[0].clientY : e.clientY });
+            if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+            else this.xya.unshift({ x: e.clientX , y: e.clientY });
           }
 
           if(b){
@@ -134,36 +136,15 @@
           });
          
           mineo[x + 'u']({ d: v.d, i: i });
-
-
-
-
-          /// x m l
-          // plot.prototype.xml = async k => {
-          //   // file xml
-          //   const loader = new FileLoader();
-          //   k.xml = await loader.loadAsync(k.file); /// xml
-
-          //   return xmlPaser(k); /// file
-          // };
-
-          // const xmlPaser = (...a) => {
-          //   /// [{ xml: obj }]
-          //   a.push({});
-          //   a[1].parser = new DOMParser();
-          //   a[1].xmlDoc = a[1].parser.parseFromString(a[0].xml, 'text/xml');
-
-          //   a[1].story = a[1].xmlDoc.querySelector('story'); // 스토리는 몇 개의 시퀀스로 나타낸다
-          //   a[1].value = JSON.parse(a[1].story.childNodes[0].nodeValue); // tagName은 'story'를 나타낸다
-          //   for (let name in a[1].value) {
-          //     story[name] = a[1].value[name];
-          //     // if (value.hasOwnProperty(name)) { }
-          //   }
         }
       };
       /*/ --> get server file /*/
       
-
+      /*/ <-- set page /*/
+      const pageo = function () {
+        const scene = []
+      }
+      /*/ --> set page /*/
     };
     /*/ --> Modules Function Structure /*/
 
