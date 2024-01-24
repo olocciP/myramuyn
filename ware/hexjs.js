@@ -16,9 +16,8 @@
       const { m, es, req } = v; /*/ Module, ExpotrS, REQuire /*/
 
       req.d(es, {
-        cxyo: /*/ Mouse & Touch client x, y /*/ () => im.cxyo, 
-        geto: /*/ Get server file xml, json, svg /*/ () => im.geto,
-        pageo: /*/ Set Page  /*/ () => im.pageo,
+        cxyy: /*/ Mouse & Touch client x, y /*/ () => im.cxyy, 
+        gety: /*/ Get server file xml, json, svg /*/ () => im.gety,
         // Play: (/*/ Imported Module /*/) => im.Play,
         // Page: (/*/ Imported Module /*/) => im.Page,
         // Part: (/*/ Imported Module /*/) => im.Part,
@@ -42,27 +41,41 @@
 
       req.r(es);
       req.d(es, {
-        cxyo: () => cxyo,
-        geto: () => geto,
-        pageo: () => Pageo,
+        cxyy: () => cxyy,
+        gety: () => gety,
         // Part: () => Part,
         // Pack: () => Pack,
         // Plot: () => Plot,
         // Plan: () => Plan,
       });
 
+      const pageo = {};
+      pageo.rc = { r: 0, c: 0, dr: 0, dc: 0 };
+      pageo.sceneo = {};
+      pageo.sceneu = v => {
+        const { e, r, c } = v;
+
+        console.log(r, c, this);
+      };
+      pageo.itemo = {};
+      pageo.itemu = v => {
+        console.log(v);
+      };
+      
       /*/ <-- Mouse & Touch client x, y /*/
-      const cxyo = function () {
+      const cxyy = function () {
+        const mob = navigator.userAgentData.mobile;
+        const type = { start: '', move: '', end: '' };
+        type.start = mob ? 'touchstart' : 'mousedown';
+        type.move = mob ? 'touchmove' :'mousemove';
+        type.end = mob ? 'touchend' : 'mouseup';
+
         this.wh = { 
           w: window.innerWidth || document.body.clientWidth, 
           h: window.innerHeight || document.body.clientHeight, 
           r: window.devicePixelRatio || 1 
-        }; 
-        this.mob = navigator.userAgentData.mobile;
-        this.type = { start: '', move: '', end: '' };
+        };
         this.xya = [ /*/{ x: 0, y: 0 } /*/ ];
-        this.popu = () => this.xya.length > 0 ? this.xya.pop() : null;
-        
         this.eventu = v => {
           const { b, n } = v; /*/ b: boolean, n: number /*/
 
@@ -70,37 +83,38 @@
           const addu = v => {
             const { e } = v;
 
-            if(this.xya.length > n && n) this.popu();
-            if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+            if(this.xya.length > n && n) this.xya.pop();
+            if(mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
             else this.xya.unshift({ x: e.clientX , y: e.clientY });
           }
 
           if(b){
-            this.type.start = this.mob ? 'touchstart' : 'mousedown';
-            this.type.move = this.mob ? 'touchmove' :'mousemove';
-            this.type.end = this.mob ? 'touchend' : 'mouseup';
-
-            document.addEventListener(this.type.start, addue);
-            document.addEventListener(this.type.move, addue);
-            document.addEventListener(this.type.end, addue);
+            document.addEventListener(type.start, addue);
+            document.addEventListener(type.move, addue);
+            document.addEventListener(type.end, addue);
 
           } else {
-            document.removeEventListener(this.type.start, addue);
-            document.removeEventListener(this.type.move, addue);
-            document.removeEventListener(this.type.end, addue);
+            document.removeEventListener(type.start, addue);
+            document.removeEventListener(type.move, addue);
+            document.removeEventListener(type.end, addue);
           }
         }
       };
       /*/ --> Mouse & Touch client x, y /*/
 
       /*/ <-- Get server file /*/
-      const geto = function () {
+      const gety = function () {
         const mineo = {
           'xmlu': v => {
             const { d, n } = v; /*/ d: XMLDocument /*/
 
-            [].forEach.call(d.querySelectorAll('row'), e => {
-              console.log(e);
+            [].forEach.call(d.querySelectorAll('row'), (e, r) => {
+              [].forEach.call(e.querySelectorAll('column'), (e, c) => {
+                [].forEach.call(e.querySelectorAll('scene'), e => { 
+                  pageo.sceneu({ e: e, r: r, c: c });
+              });
+                [].forEach.call(e.querySelectorAll('item'), e => pageo.itemu({ e: e, r: r, c: c }));
+              });
             });
           },
 
@@ -110,7 +124,7 @@
             const { d, n } = v; /*/ d: XMLDocument /*/
 
             [].forEach.call(d.querySelectorAll('svg'), e => {
-              console.log(e);
+              // console.log(e);
             });
           },
 
@@ -139,14 +153,17 @@
         }
       };
       /*/ --> get server file /*/
-      
-      /*/ <-- set page /*/
-      const pageo = function () {
-        const scene = []
-      }
-      /*/ --> set page /*/
+
+      // /*/ <-- set page /*/
+      // const pageo = function () {
+      //   const scene = []
+      // }
+      // /*/ --> set page /*/
+
     };
     /*/ --> Modules Function Structure /*/
+
+   
 
     /*/ <-- Modules Function Define /*/
     const mc = {}; /*/ Modules Cache /*/
