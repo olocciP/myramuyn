@@ -8,4 +8,5 @@ elo.diva = [];
 console.log(cxyo.wh, elo);
 
 const geto = new x6.geto();
+geto.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
 geto.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });

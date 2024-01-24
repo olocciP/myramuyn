@@ -68,10 +68,9 @@
           const addue = e => addu({ e: e });
           const addu = v => {
             const { e } = v;
-            if(this.mob && !e.touches.length) return;
 
             if(this.xya.length > n && n) this.popu();
-            this.xya.unshift({ x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY });
+            this.xya.unshift({ x: this.mob ? e.touches[0].clientX : e.clientX , y: this.mob ? e.touches[0].clientY : e.clientY });
           }
 
           if(b){
@@ -97,6 +96,10 @@
         const mineo = {
           'xmlu': v => {
             const { d, n } = v; /*/ d: XMLDocument /*/
+
+            [].forEach.call(d.querySelectorAll('row'), e => {
+              console.log(e);
+            });
           },
 
           'jsonu': v => {},
