@@ -94,38 +94,45 @@
 
       /*/ <-- Get server file /*/
       const geto = function () {
-        const mineu = {
-          'xml': v => {
-            const { d } = v; /*/ s: XMLDocument /*/
+        const mineo = {
+          'xmlu': v => {
+            const { d, n } = v; /*/ d: XMLDocument /*/
+          },
+
+          'jsonu': v => {},
+
+          'svgu': v => {
+            const { d, n } = v; /*/ d: XMLDocument /*/
 
             [].forEach.call(d.querySelectorAll('svg'), e => {
               console.log(e);
             });
           },
-          'json': v => {},
-          'svg+xml': v => {},
-          'html': v => {},
-          'plain': v => {}
+
+          'htmlu': v => {},
+
+          'txtu': v => {}
         }
 
-        const mimeu = {
+        const mimeo = {
           'xml': 'application/xml',
           'json': 'application/json',
-          'svg+xml': 'image/svg+xml',
+          'svg': 'image/svg+xml',
           'html': 'text/html',
-          'plain': 'text/plain' 
+          'txt': 'text/plain' 
         }
 
-        this.file = async v => {
-          const { u, n, m } = v; /*/ u: string, n: string, m: string /*/
+        this.fileu = async v => {
+          const { p, i, x } = v; /*/ p: string, n: string, x: string /*/
 
-          v.m = '';
-          v.p = await fetch ([u, n].join('/') /*/ url /*/);
-          v.d = await v.p.text().then(e => {
-            return new DOMParser().parseFromString(e, mimeu[m]);
+          v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
+          v.d = await v.f.text().then(e => {
+            return new DOMParser().parseFromString(e, mimeo[x]);
           });
          
-          mineu['svg+xml']({ d: v.d });
+          mineo[x + 'u']({ d: v.d, i: i });
+
+
 
 
           /// x m l

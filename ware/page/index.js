@@ -6,3 +6,6 @@ elo.diva = [];
 [].forEach.call(document.body.querySelectorAll('div'), e => elo.diva.push(e));
   
 console.log(cxyo.wh, elo);
+
+const geto = new x6.geto();
+geto.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });

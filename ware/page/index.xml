@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cells row="fix" column="first">
+  <row>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+  </row>
+  <row>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+  </row>
+  <row>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+    <column>
+      <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
+      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+    </column>
+  </row>
+</cells>
