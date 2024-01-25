@@ -51,28 +51,66 @@
 
       /*/ <-- Utile /*/
       const crtelu = v => {
-        const { e, i, c } = v; /*/ e: string, i: string, c: element /*/
+        const { p, e, i, c } = v; /*/ p: element, e: string, i: string, c: element /*/
 
         v.e = document.createElement(e /*/ e: Element Type /*/); 
-        v.e.setAttribute('id', i /*/ i: Id /*/); 
-        document.body.insertBefore(v.e, c /*/ c: Current Element /*/ || document.body.firstChild);
+        if(i.length) v.e.setAttribute('class', i /*/ i: Id /*/); 
+        p.insertBefore(v.e, c /*/ p: Parent Element, c: Current Element /*/);
+
+        return v.e;
+      }
+
+      const mimeo = {
+        'xml': 'application/xml',
+        'json': 'application/json',
+        'svg': 'image/svg+xml',
+        'html': 'text/html',
+        'txt': 'text/plain' 
+      }
+
+      const getfileu = async v => {
+        const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
+
+        v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
+        v.d = await v.f.text().then(e => {
+          return new DOMParser().parseFromString(e, mimeo[x]);
+        });
+       
+        return v.d;
       }
       /*/ --> Utile /*/
 
       /*/ <-- Set Page /*/
       const pagey = function () {
+        this.xml = {};
         this.rc = { r: 0, c: 0, dr: 0, dc: 0 };
         this.sceneo = {};
         this.sceneu = v => {
           const { e, r, c } = v;
 
+          // v.d = await getfileu({ p: p, i: i, x: x });
           this.rc.r = r;
           this.rc.c = c;
+          console.log(e);
         };
         this.itemo = {};
         this.itemu = v => {
           // console.log(v);
         };
+        this.setu = v => {
+          const { dr, dc } = v;
+
+          this.dr += dr;
+          this.dc += dc;
+          v.rea = document.querySelectorAll('row');
+          v.re = v.rea[this.dr];
+          v.cea = v.re.querySelectorAll('column');
+          v.ce = v.cea[this.dc];
+
+          if(dr + dc === 0){
+            console.log(v.ce);
+          }
+        }
       };
       const pagei = new pagey();
       /*/ --> Set Page /*/
@@ -123,13 +161,19 @@
           'xmlu': v => {
             const { d, i } = v; /*/ d: XMLDocument /*/
 
-            crtelu({ e:'div', i: i, c: document.body.firstChild });
-            [].forEach.call(d.querySelectorAll('row'), (e, r) => {
-              [].forEach.call(e.querySelectorAll('column'), (e, c) => {
-                [].forEach.call(e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, r: r, c: c }));
-                [].forEach.call(e.querySelectorAll('item'), e => pagei.itemu({ e: e, r: r, c: c }));
-              });
+            v.e = crtelu({ p: document.body, e:'div', i: i, c: document.body.firstChild });
+            [].forEach.call(['row column', 'column', 'column', 'row', 'row'], e => {
+              crtelu({ p: v.e, e:'svg', i: e, c: v.e.firstChild });
             });
+
+            pagei.xmlo[i] = d;
+            pagei.setu({ dr: 0, dc: 0 });
+            // [].forEach.call(d.querySelectorAll('row'), (e, r /*/ row num /*/) => {
+            //   [].forEach.call(e.querySelectorAll('column'), (e, c /*/ column num /*/) => {
+            //     [].forEach.call(e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, r: r, c: c }));
+            //     [].forEach.call(e.querySelectorAll('item'), e => pagei.itemu({ e: e, r: r, c: c }));
+            //   });
+            // });
           },
 
           'jsonu': v => {},
@@ -147,22 +191,10 @@
           'txtu': v => {}
         }
 
-        const mimeo = {
-          'xml': 'application/xml',
-          'json': 'application/json',
-          'svg': 'image/svg+xml',
-          'html': 'text/html',
-          'txt': 'text/plain' 
-        }
-
         this.fileu = async v => {
           const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
 
-          v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
-          v.d = await v.f.text().then(e => {
-            return new DOMParser().parseFromString(e, mimeo[x]);
-          });
-         
+          v.d = await getfileu({ p: p, i: i, x: x });
           mineo[x + 'u']({ d: v.d, i: i });
         }
       };
