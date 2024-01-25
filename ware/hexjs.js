@@ -49,19 +49,34 @@
         // Plan: () => Plan,
       });
 
-      const pageo = {};
-      pageo.rc = { r: 0, c: 0, dr: 0, dc: 0 };
-      pageo.sceneo = {};
-      pageo.sceneu = v => {
-        const { e, r, c } = v;
+      /*/ <-- Utile /*/
+      const crtelu = v => {
+        const { e, i, c } = v; /*/ e: string, i: string, c: element /*/
 
-        console.log(r, c, this);
+        v.e = document.createElement(e /*/ e: Element Type /*/); 
+        v.e.setAttribute('id', i /*/ i: Id /*/); 
+        document.body.insertBefore(v.e, c /*/ c: Current Element /*/ || document.body.firstChild);
+      }
+      /*/ --> Utile /*/
+
+      /*/ <-- Set Page /*/
+      const pagey = function () {
+        this.rc = { r: 0, c: 0, dr: 0, dc: 0 };
+        this.sceneo = {};
+        this.sceneu = v => {
+          const { e, r, c } = v;
+
+          this.rc.r = r;
+          this.rc.c = c;
+        };
+        this.itemo = {};
+        this.itemu = v => {
+          // console.log(v);
+        };
       };
-      pageo.itemo = {};
-      pageo.itemu = v => {
-        console.log(v);
-      };
-      
+      const pagei = new pagey();
+      /*/ --> Set Page /*/
+
       /*/ <-- Mouse & Touch client x, y /*/
       const cxyy = function () {
         const mob = navigator.userAgentData.mobile;
@@ -82,18 +97,18 @@
           const addue = e => addu({ e: e });
           const addu = v => {
             const { e } = v;
-
-            if(this.xya.length > n && n) this.xya.pop();
+            
+            if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
             if(mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
             else this.xya.unshift({ x: e.clientX , y: e.clientY });
           }
 
-          if(b){
+          if(b){ /*/ b: true - addEventListener /*/
             document.addEventListener(type.start, addue);
             document.addEventListener(type.move, addue);
             document.addEventListener(type.end, addue);
-
-          } else {
+            
+          } else { /*/ b: false - removeEventListener /*/
             document.removeEventListener(type.start, addue);
             document.removeEventListener(type.move, addue);
             document.removeEventListener(type.end, addue);
@@ -106,14 +121,13 @@
       const gety = function () {
         const mineo = {
           'xmlu': v => {
-            const { d, n } = v; /*/ d: XMLDocument /*/
+            const { d, i } = v; /*/ d: XMLDocument /*/
 
+            crtelu({ e:'div', i: i, c: document.body.firstChild });
             [].forEach.call(d.querySelectorAll('row'), (e, r) => {
               [].forEach.call(e.querySelectorAll('column'), (e, c) => {
-                [].forEach.call(e.querySelectorAll('scene'), e => { 
-                  pageo.sceneu({ e: e, r: r, c: c });
-              });
-                [].forEach.call(e.querySelectorAll('item'), e => pageo.itemu({ e: e, r: r, c: c }));
+                [].forEach.call(e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, r: r, c: c }));
+                [].forEach.call(e.querySelectorAll('item'), e => pagei.itemu({ e: e, r: r, c: c }));
               });
             });
           },
@@ -142,7 +156,7 @@
         }
 
         this.fileu = async v => {
-          const { p, i, x } = v; /*/ p: string, n: string, x: string /*/
+          const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
 
           v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
           v.d = await v.f.text().then(e => {
