@@ -59,7 +59,11 @@
 
         if(e ==='svg'){
           // console.log(document.body.clientWidth, document.body.clientHeight);
-          v.e.setAttribute('viewBox', '0 0 1920 1080');
+          if(pagei !== undefined) { 
+            pagei.who.w = document.body.clientWidth; 
+            pagei.who.h = document.body.clientHeight; 
+          }
+          v.e.setAttribute('viewBox', `0 0 ${document.body.clientWidth} ${document.body.clientHeight}`);
           v.e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         }
         return v.e;
@@ -90,21 +94,55 @@
         this.xmlo = {};
         this.who = { w: 0, h: 0 };
         this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
-        this.sceneo = {};
+
+        this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
+        this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
+
         this.sceneu = async v => {
           const { e, po } = v;
 
           v.p = document.querySelectorAll(`.${po.i}`)[po.n];
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          [].forEach.call(v.d.querySelectorAll('g'), e => v.p.insertBefore(e, v.p.firstChild));
-        };
-        this.itemo = {};
-        this.itemu = v => {
-          const { e, po } = v;
+          this.sceneo[po.i][po.n].push(v.d.documentElement.innerHTML);
 
-          console.log(e);
+          if(this.sceneo[po.i][po.n].length*this.itemo[po.i][po.n].length) this.setu({});
+          // v.s = `<svg>${v.d.documentElement.innerHTML}</svg>`;
+          // console.log(v.s);
+          // v.e = new DOMParser().parseFromString(v.s, 'text/html').body.childNodes[0];
+
+          // v.p.insertAdjacentHTML('beforeend', v.e.outerHTML);
+
+          // v.p = document.querySelectorAll(`.${po.i}`)[po.n];
+          // v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
+          // [].forEach.call(v.d.querySelectorAll('g'), e => v.p.insertAdjacentHTML('beforeend', e.documentElement.outerHTML));
         };
+        
+        this.itemu = async v => {
+          const { e, po } = v;
+          
+          v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
+          this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
+
+          if(this.sceneo[po.i][po.n].length*this.itemo[po.i][po.n].length) this.setu({});
+          // v.p = document.querySelectorAll(`.${po.i}`)[po.n];
+          // v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
+          // [].forEach.call(v.d.querySelectorAll('g'), e => v.p.appendChild(e));
+        };
+
         this.setu = v => {
+          const {} = v;
+
+          v.a = ['<svg>'];
+          [].forEach.call(this.sceneo.column[2], e => v.a.push(e));
+          [].forEach.call(this.itemo.column[2], e => v.a.push(e));
+          v.a.push('</svg>');
+          console.log(v.a);
+          v.p = document.querySelector('div');
+          v.e = new DOMParser().parseFromString(v.a.join(''), 'text/html').body.childNodes[0];
+          v.p.insertAdjacentHTML('beforeend', v.e.outerHTML);
+        };
+
+        this.getu = v => {
           const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: number /*/
 
           this.rco.dr += dr;  /*/ Row num /*/
@@ -114,12 +152,8 @@
           v.cea = v.rea[this.rco.dr].querySelectorAll('column');
           v.e = v.cea[this.rco.dc];
 
-          [].forEach.call(v.e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, po: { i:'column', n: 2 } }));
-          [].forEach.call(v.e.querySelectorAll('item'), e => pagei.itemu({ e: e, po: { i:'column', n: 2 }  }));
-
-          if(dr + dc === 0){
-            // console.log(v.ce);
-          }
+          [].forEach.call(v.e.querySelectorAll('scene'), e => this.sceneu({ e: e, po: { i:'column', n: 2 } }));
+          [].forEach.call(v.e.querySelectorAll('item'), e => this.itemu({ e: e, po: { i:'column', n: 2 } }));
         }
       };
       const pagei = new pagey();
@@ -172,12 +206,12 @@
             const { d, i } = v; /*/ d: XMLDocument /*/
 
             v.e = crtelu({ p: document.body, e:'div', i: i, c: document.body.firstChild });
-            [].forEach.call(['row column', 'column', 'column', 'row', 'row'], e => {
-              crtelu({ p: v.e, e:'svg', i: e, c: v.e.firstChild });
-            });
+            // [].forEach.call(['row column', 'column', 'column', 'row', 'row'], e => {
+            //   crtelu({ p: v.e, e:'svg', i: e, c: v.e.firstChild });
+            // });
 
             pagei.xmlo[i] = d;
-            pagei.setu({ dr: 0, dc: 0, i: i });
+            pagei.getu({ dr: 0, dc: 0, i: i });
           },
 
           'jsonu': v => {},
