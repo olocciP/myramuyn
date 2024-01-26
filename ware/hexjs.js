@@ -57,6 +57,11 @@
         if(i.length) v.e.setAttribute('class', i /*/ i: Id /*/); 
         p.insertBefore(v.e, c /*/ p: Parent Element, c: Current Element /*/);
 
+        if(e ==='svg'){
+          // console.log(document.body.clientWidth, document.body.clientHeight);
+          v.e.setAttribute('viewBox', '0 0 1920 1080');
+          v.e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        }
         return v.e;
       }
 
@@ -82,33 +87,38 @@
 
       /*/ <-- Set Page /*/
       const pagey = function () {
-        this.xml = {};
-        this.rc = { r: 0, c: 0, dr: 0, dc: 0 };
+        this.xmlo = {};
+        this.who = { w: 0, h: 0 };
+        this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
         this.sceneo = {};
-        this.sceneu = v => {
-          const { e, r, c } = v;
+        this.sceneu = async v => {
+          const { e, po } = v;
 
-          // v.d = await getfileu({ p: p, i: i, x: x });
-          this.rc.r = r;
-          this.rc.c = c;
-          console.log(e);
+          v.p = document.querySelectorAll(`.${po.i}`)[po.n];
+          v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
+          [].forEach.call(v.d.querySelectorAll('g'), e => v.p.insertBefore(e, v.p.firstChild));
         };
         this.itemo = {};
         this.itemu = v => {
-          // console.log(v);
+          const { e, po } = v;
+
+          console.log(e);
         };
         this.setu = v => {
-          const { dr, dc } = v;
+          const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: number /*/
 
-          this.dr += dr;
-          this.dc += dc;
-          v.rea = document.querySelectorAll('row');
-          v.re = v.rea[this.dr];
-          v.cea = v.re.querySelectorAll('column');
-          v.ce = v.cea[this.dc];
+          this.rco.dr += dr;  /*/ Row num /*/
+          this.rco.dc += dc;  /*/ Column num /*/
+
+          v.rea = this.xmlo[i].querySelectorAll('row'); /*/ XMLDocument id /*/
+          v.cea = v.rea[this.rco.dr].querySelectorAll('column');
+          v.e = v.cea[this.rco.dc];
+
+          [].forEach.call(v.e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, po: { i:'column', n: 2 } }));
+          [].forEach.call(v.e.querySelectorAll('item'), e => pagei.itemu({ e: e, po: { i:'column', n: 2 }  }));
 
           if(dr + dc === 0){
-            console.log(v.ce);
+            // console.log(v.ce);
           }
         }
       };
@@ -167,13 +177,7 @@
             });
 
             pagei.xmlo[i] = d;
-            pagei.setu({ dr: 0, dc: 0 });
-            // [].forEach.call(d.querySelectorAll('row'), (e, r /*/ row num /*/) => {
-            //   [].forEach.call(e.querySelectorAll('column'), (e, c /*/ column num /*/) => {
-            //     [].forEach.call(e.querySelectorAll('scene'), e => pagei.sceneu({ e: e, r: r, c: c }));
-            //     [].forEach.call(e.querySelectorAll('item'), e => pagei.itemu({ e: e, r: r, c: c }));
-            //   });
-            // });
+            pagei.setu({ dr: 0, dc: 0, i: i });
           },
 
           'jsonu': v => {},
