@@ -1,11 +1,5 @@
 <svg>
   <g>
-    <path d="m0 0 l128 128 l128 -128z" fill="#daedae"/>
-    <path d="m0 0 v256 l128 -128z" fill="#dae"/>
-    <path d="m256 0 l-64 64 v128 l64 -64z" fill="#aedaed"/>
-    <path d="m192 64 l-64 64 l64 64z" fill="#aeddae"/>
-    <path d="m128 128 l-64 64 l64 64 l64 -64z" fill="#aed"/>
-    <path d="m0 256 h128 l-64 -64z" fill="#edadae"/>
-    <path d="m128 256 h128 v-128z" fill="#eda"/>
+    <rect x="0" y="0" width="100%" height="100%" stroke="#fff" stroke-width="3px" fill="#000"/>
   </g>
 </svg>

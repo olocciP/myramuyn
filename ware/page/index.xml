@@ -3,7 +3,7 @@
   <row>
     <column>
       <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
-      <item i="logo" x="svg" p="/ware/item" xy="100,100" e='click'/>
+      <item i="index-intro" x="svg" p="/ware/item" xy="100,100" e='click'/>
     </column>
     <column>
       <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>

@@ -1,11 +1,11 @@
 <svg>
   <g>
-    <path d="m0 0 l128 128 l128 -128z" fill="#daedae"/>
-    <path d="m0 0 v256 l128 -128z" fill="#dae"/>
-    <path d="m256 0 l-64 64 v128 l64 -64z" fill="#aedaed"/>
-    <path d="m192 64 l-64 64 l64 64z" fill="#aeddae"/>
-    <path d="m128 128 l-64 64 l64 64 l64 -64z" fill="#aed"/>
-    <path d="m0 256 h128 l-64 -64z" fill="#edadae"/>
-    <path d="m128 256 h128 v-128z" fill="#eda"/>
+    <path d='m0 0l128 128 l128-128z' fill="#e62d8b" />
+    <path d='m0 0v256 l128-128z' fill="#ee743f" />
+    <path d='m256 0 l-64 64v128l64-64z' fill="#e71223" />
+    <path d='m192 64 l-64 64 l64-64z' fill="#45537b" />
+    <path d='m128 128 l-64 46l64 64l64-64z' fill="#e9d226" />
+    <path d='m64 192l-64 64h128z' fill="#2d91b7" />
+    <path d='m192 256 h128v-128z' fill="#7caa2a" />
   </g>
 </svg>

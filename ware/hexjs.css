@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Dokdo&family=Gowun+Dodum&family=Black+Han+Sans&display=swap');
+
 html, body {
   margin: 0;
   width: 100%;
@@ -9,6 +12,10 @@ body {
   background-color: #000;
   -ms-overflow-style: none; /*/ 인터넷 익스플로러 /*/
   scrollbar-width: none; /*/ 파이어폭스 /*/
+
+  /*/ font-family: 'Dokdo', system-ui; /*/
+  /*/ font-family: 'Gowun Dodum', sans-serif; /*/
+  /*/ font-family: 'Black Han Sans', sans-serif; /*/
 }
 
 body::-webkit-scrollbar {

@@ -64,6 +64,3 @@ func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 	}
 }
-
-
-/*/ https://www.alexedwards.net/blog/serving-static-sites-with-go /*/
