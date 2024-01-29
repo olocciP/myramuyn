@@ -1,11 +1,13 @@
 <svg>
   <g>
-    <path d='m0 0l128 128 l128-128z' fill="#e62d8b" />
-    <path d='m0 0v256 l128-128z' fill="#ee743f" />
-    <path d='m256 0 l-64 64v128l64-64z' fill="#e71223" />
-    <path d='m192 64 l-64 64 l64-64z' fill="#45537b" />
-    <path d='m128 128 l-64 46l64 64l64-64z' fill="#e9d226" />
-    <path d='m64 192l-64 64h128z' fill="#2d91b7" />
-    <path d='m192 256 h128v-128z' fill="#7caa2a" />
+    <path fill="#e62d8b" d="m16 16 48 48 48-48z"/>
+    <path fill="#ee743f" d="m16 16 48 48-48 48z"/>
+    <path fill="#e71223" d="m64 64 24 24V40z"/>
+    <path fill="#45537b" d="m88 40 24-24v48L88 88z"/>
+    <path fill="#e9d226" d="m88 88-24 24-24-24 24-24z"/>
+    <path fill="#2d91b7" d="m16 112h48L40 88z"/>
+    <path fill="#7caa2a" d="m64 112h48V64z"/>
   </g>
 </svg>
+
+
