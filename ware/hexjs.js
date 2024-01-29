@@ -136,7 +136,7 @@
           [].forEach.call(this.sceneo.column[2], e => v.a.push(e));
           [].forEach.call(this.itemo.column[2], e => v.a.push(e));
           v.a.push('</svg>');
-          console.log(v.a);
+          // console.log(v.a);
           v.p = document.querySelector('div');
           v.e = new DOMParser().parseFromString(v.a.join(''), 'text/html').body.childNodes[0];
           v.p.insertAdjacentHTML('beforeend', v.e.outerHTML);
@@ -160,8 +160,29 @@
       /*/ --> Set Page /*/
 
       /*/ <-- Mouse & Touch client x, y /*/
-      const cxyy = function () {
-        const mob = navigator.userAgentData.mobile;
+      const cxyy = function (v) {
+        const {} = v;
+
+        v.touch = false;
+        if ("maxTouchPoints" in navigator) {
+          v.touch = navigator.maxTouchPoints > 0;
+        } else if ("msMaxTouchPoints" in navigator) {
+          v.touch = navigator.msMaxTouchPoints > 0;
+        } else {
+          const mQ = matchMedia?.("(pointer:coarse)");
+          if (mQ?.media === "(pointer:coarse)") {
+            v.touch = !!mQ.matches;
+          } else if ("orientation" in window) {
+            v.touch = true;
+          } else {
+            const UA = navigator.userAgent;
+            v.touch =
+              /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+              /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+          }
+        }
+
+        const mob = v.touch;
         const type = { start: '', move: '', end: '' };
         type.start = mob ? 'touchstart' : 'mousedown';
         type.move = mob ? 'touchmove' :'mousemove';
@@ -176,7 +197,7 @@
         this.eventu = v => {
           const { b, n } = v; /*/ b: boolean, n: number /*/
 
-          const addue = e => addu({ e: e });
+          const addue = e => { e.preventDefault(); addu({ e: e }); };
           const addu = v => {
             const { e } = v;
             
@@ -200,7 +221,9 @@
       /*/ --> Mouse & Touch client x, y /*/
 
       /*/ <-- Get server file /*/
-      const gety = function () {
+      const gety = function (v) {
+        const {} = v;
+
         const mineo = {
           'xmlu': v => {
             const { d, i } = v; /*/ d: XMLDocument /*/
