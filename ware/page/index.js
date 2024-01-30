@@ -9,7 +9,7 @@ geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
 
 
 const frameu = e => {
- 
+
   window.requestAnimationFrame(frameu);
 }
 window.requestAnimationFrame(frameu);

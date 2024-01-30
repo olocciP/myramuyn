@@ -90,47 +90,42 @@
       /*/ --> Utile /*/
 
       /*/ <-- Set Page /*/
-      const pagey = function () {
+      const pagey = function (v) {
+        const {} = v;
+
         this.xmlo = {};
         this.who = { w: 0, h: 0 };
         this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
 
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
+        this.set = { scene: 0, item: 0 };
 
         this.sceneu = async v => {
           const { e, po } = v;
 
-          v.p = document.querySelectorAll(`.${po.i}`)[po.n];
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          this.sceneo[po.i][po.n].push(v.d.documentElement.innerHTML);
-
-          if(this.sceneo[po.i][po.n].length*this.itemo[po.i][po.n].length) this.setu({});
-          // v.s = `<svg>${v.d.documentElement.innerHTML}</svg>`;
-          // console.log(v.s);
-          // v.e = new DOMParser().parseFromString(v.s, 'text/html').body.childNodes[0];
-
-          // v.p.insertAdjacentHTML('beforeend', v.e.outerHTML);
-
-          // v.p = document.querySelectorAll(`.${po.i}`)[po.n];
-          // v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          // [].forEach.call(v.d.querySelectorAll('g'), e => v.p.insertAdjacentHTML('beforeend', e.documentElement.outerHTML));
+          await this.sceneo[po.i][po.n].push(v.d.documentElement.innerHTML);
+          await this.setu({ po: po });
         };
         
         this.itemu = async v => {
           const { e, po } = v;
           
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
-
-          if(this.sceneo[po.i][po.n].length*this.itemo[po.i][po.n].length) this.setu({});
-          // v.p = document.querySelectorAll(`.${po.i}`)[po.n];
-          // v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          // [].forEach.call(v.d.querySelectorAll('g'), e => v.p.appendChild(e));
+          await this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
+          await this.setu({ po: po });
         };
 
         this.setu = v => {
-          const {} = v;
+          const { po } = v;
+
+          if( this.sceneo[po.i][po.n].length === this.set.scene && this.itemo[po.i][po.n].length === this.set.item){
+            this.set.scene = 0;
+            this.set.item = 0;
+          } else {
+            return;
+          }
 
           v.a = ['<svg>'];
           [].forEach.call(this.sceneo.column[2], e => v.a.push(e));
@@ -152,11 +147,15 @@
           v.cea = v.rea[this.rco.dr].querySelectorAll('column');
           v.e = v.cea[this.rco.dc];
 
-          [].forEach.call(v.e.querySelectorAll('scene'), e => this.sceneu({ e: e, po: { i:'column', n: 2 } }));
-          [].forEach.call(v.e.querySelectorAll('item'), e => this.itemu({ e: e, po: { i:'column', n: 2 } }));
+          v.scenea = v.e.querySelectorAll('scene');
+          v.itema = v.e.querySelectorAll('item');
+          this.set.scene = v.scenea.length;
+          this.set.item = v.itema.length;
+          [].forEach.call(v.scenea, (e, i) => this.sceneu({ e: e, po: { i:'column', n: 2 }}));
+          [].forEach.call(v.itema, (e, i) => this.itemu({ e: e, po: { i:'column', n: 2 }}));
         }
       };
-      const pagei = new pagey();
+      const pagei = new pagey({});
       /*/ --> Set Page /*/
 
       /*/ <-- Mouse & Touch client x, y /*/
@@ -169,16 +168,14 @@
         } else if ("msMaxTouchPoints" in navigator) {
           v.touch = navigator.msMaxTouchPoints > 0;
         } else {
-          const mQ = matchMedia?.("(pointer:coarse)");
-          if (mQ?.media === "(pointer:coarse)") {
-            v.touch = !!mQ.matches;
+          v.mq = matchMedia?.("(pointer:coarse)");
+          if (v.mq?.media === "(pointer:coarse)") {
+            v.touch = !!v.mq.matches;
           } else if ("orientation" in window) {
             v.touch = true;
           } else {
-            const UA = navigator.userAgent;
-            v.touch =
-              /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-              /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+            v.ua = navigator.userAgent;
+            v.touch = /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(v.ua) || /\b(Android|Windows Phone|iPad|iPod)\b/i.test(v.ua);
           }
         }
 

@@ -1,12 +1,12 @@
 <svg>
   <g transform="matrix(1 0 0 1 128 128)">
-    <path d="m0 0l128 128l128 -128z" fill="#e62d8b"/>
-    <path d="m0 0v256l128 -128z" fill="#ee743f"/>
-    <path d="m256 0l-64 64 v128l64 -64z" fill="#e71223"/>
-    <path d="m192 64l-64 64 l64 64z" fill="#45537b"/>
-    <path d="m128 128l-64 64 l64 64l64 -64z" fill="#e9d226"/>
-    <path d="m0 256h128l-64 -64z" fill="#2d91b7"/>
-    <path d="m128 256h128v-128z" fill="#7caa2a"/>
+    <path fill="#e62d8b" d="m0 0l128 128l128 -128z"/>
+    <path fill="#ee743f" d="m0 0v256l128 -128z"/>
+    <path fill="#e71223" d="m256 0l-64 64 v128l64 -64z"/>
+    <path fill="#45537b" d="m192 64l-64 64 l64 64z"/>
+    <path fill="#e9d226" d="m128 128l-64 64 l64 64l64 -64z"/>
+    <path fill="#2d91b7" d="m0 256h128l-64 -64z"/>
+    <path fill="#7caa2a" d="m128 256h128v-128z"/>
   </g>
   <g>
     <text dominant-baseline="middle" text-anchor="middle">
