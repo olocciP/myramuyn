@@ -100,11 +100,11 @@
 
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
-        this.set = { scene: 0, item: 0 };
+        this.set = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
 
         this.sceneu = async v => {
           const { e, po } = v;
-
+          
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
           await this.sceneo[po.i][po.n].push(v.d.documentElement.innerHTML);
           await this.setu({ po: po });
@@ -112,7 +112,7 @@
         
         this.itemu = async v => {
           const { e, po } = v;
-          
+          console.log(po);
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
           await this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
           await this.setu({ po: po });
@@ -121,18 +121,18 @@
         this.setu = v => {
           const { po } = v;
 
-          if( this.sceneo[po.i][po.n].length === this.set.scene && this.itemo[po.i][po.n].length === this.set.item){
-            this.set.scene = 0;
-            this.set.item = 0;
+          if(this.sceneo[po.i][po.n].length === this.set.scene[po.i][po.n] && this.itemo[po.i][po.n].length === this.set.item[po.i][po.n]){
+            this.set.scene[po.i][po.n] = 0;
+            this.set.item[po.i][po.n] = 0;
           } else {
             return;
           }
 
           v.a = ['<svg>'];
-          [].forEach.call(this.sceneo.column[2], e => v.a.push(e));
-          [].forEach.call(this.itemo.column[2], e => v.a.push(e));
+          [].forEach.call(this.sceneo[po.i][po.n], e => v.a.push(e));
+          [].forEach.call(this.itemo[po.i][po.n], e => v.a.push(e));
           v.a.push('</svg>');
-          // console.log(v.a);
+
           v.p = document.querySelector('div');
           v.e = new DOMParser().parseFromString(v.a.join(''), 'text/html').body.childNodes[0];
           v.p.insertAdjacentHTML('beforeend', v.e.outerHTML);
@@ -159,14 +159,16 @@
             
             v.scenea = v.e.querySelectorAll('scene');
             v.itema = v.e.querySelectorAll('item');
-            this.set.scene = v.scenea.length;
-            this.set.item = v.itema.length;
 
             if(Math.round((i + 1)/2) - 1){
+              this.set.scene.column[i - 2] = v.scenea.length;
+              this.set.item.column[i - 2] = v.itema.length;
               [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2 }}));
               [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2 }}));
 
             } else {
+              this.set.scene.row[i] = v.scenea.length;
+              this.set.item.row[i] = v.itema.length;
               [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i }}));
               [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i }}));
             }
