@@ -58,12 +58,7 @@
         p.insertBefore(v.e, c /*/ p: Parent Element, c: Current Element /*/);
 
         if(e ==='svg'){
-          // console.log(document.body.clientWidth, document.body.clientHeight);
-          if(pagei !== undefined) { 
-            pagei.who.w = document.body.clientWidth; 
-            pagei.who.h = document.body.clientHeight; 
-          }
-          v.e.setAttribute('viewBox', `0 0 ${document.body.clientWidth} ${document.body.clientHeight}`);
+          v.e.setAttribute('viewBox', `0 0 ${pagei.who.w} ${pagei.who.h}`);
           v.e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         }
         return v.e;
@@ -94,13 +89,14 @@
         const {} = v;
 
         this.xmlo = {};
-        this.who = { w: 0, h: 0 };
+        this.who = { w: 0, h: 0, r: 1 };
         this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
         this.cells = {};
 
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.set = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
+        this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /*/ top, bottom, left, right, center /*/
 
         this.sceneu = async v => {
           const { e, po } = v;
@@ -112,7 +108,7 @@
         
         this.itemu = async v => {
           const { e, po } = v;
-          console.log(po);
+
           v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
           await this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
           await this.setu({ po: po });
@@ -128,7 +124,13 @@
             return;
           }
 
-          v.a = ['<svg>'];
+          this.who.w = this.who.w !== document.body.clientWidth ? document.body.clientWidth : this.who.w;
+          this.who.h = this.who.h !== document.body.clientHeight ? document.body.clientHeight : this.who.h;
+          if(this.who.r){
+            v.a = [`<svg transform="matrix(0.33 0 0 0.33 ${this.who.w*0.33*this.xya[po.c][0]} ${this.who.h*0.33*this.xya[po.c][1]})">`];
+          } else {
+            v.a = [`<svg transform="matrix(1 0 0 1 ${this.who.w*this.xya[po.c][0]} ${this.who.h*this.xya[po.c][1]})">`];
+          }
           [].forEach.call(this.sceneo[po.i][po.n], e => v.a.push(e));
           [].forEach.call(this.itemo[po.i][po.n], e => v.a.push(e));
           v.a.push('</svg>');
@@ -151,7 +153,7 @@
           this.rco.dc /*/ Column num /*/ = this.cells[i].column.fix === 'first' ? this.rco.dc = 0 : this.rco.dc + dc;
 
           v.rea = this.xmlo[i].querySelectorAll('row');
-          [].forEach.call([[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]], (e, i) => { /*/ top, bottom, left, right, center /*/
+          [].forEach.call(this.xya, (e, i) => { 
             this.rco.dr = this.rco.dr + e[0] < 0 ? v.rea.length - 1 : (this.rco.dr + e[0])%v.rea.length;
             v.cea = v.rea[this.rco.dr].querySelectorAll('column');
             this.rco.dc = this.rco.dc + e[1] < 0 ? v.cea.length - 1 : (this.rco.dc + e[1])%v.cea.length;
@@ -163,14 +165,14 @@
             if(Math.round((i + 1)/2) - 1){
               this.set.scene.column[i - 2] = v.scenea.length;
               this.set.item.column[i - 2] = v.itema.length;
-              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2 }}));
-              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2 }}));
+              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2, c: i }}));
+              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2, c: i  }}));
 
             } else {
               this.set.scene.row[i] = v.scenea.length;
               this.set.item.row[i] = v.itema.length;
-              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i }}));
-              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i }}));
+              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i, c: i }}));
+              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i, c: i }}));
             }
           });
         }
