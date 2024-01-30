@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cells row="fix" column="first">
+<cells row="current" column="first">
   <row>
     <column>
       <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>

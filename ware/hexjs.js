@@ -96,6 +96,7 @@
         this.xmlo = {};
         this.who = { w: 0, h: 0 };
         this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
+        this.cells = {};
 
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
@@ -138,21 +139,38 @@
         };
 
         this.getu = v => {
-          const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: number /*/
+          const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: string /*/
 
-          this.rco.dr += dr;  /*/ Row num /*/
-          this.rco.dc += dc;  /*/ Column num /*/
+          v.s = this.xmlo[i].querySelector('cells'); /*/ XMLDocument id /*/
+          this.cells[i] = { 
+            row: { fix: v.s.getAttribute('row') }, 
+            column: { fix: v.s.getAttribute('column') }
+          };
 
-          v.rea = this.xmlo[i].querySelectorAll('row'); /*/ XMLDocument id /*/
-          v.cea = v.rea[this.rco.dr].querySelectorAll('column');
-          v.e = v.cea[this.rco.dc];
+          this.rco.dr /*/ Row num /*/ = this.cells[i].row.fix === 'first' ? this.rco.dr = 0 : this.rco.dr + dr;
+          this.rco.dc /*/ Column num /*/ = this.cells[i].column.fix === 'first' ? this.rco.dc = 0 : this.rco.dc + dc;
 
-          v.scenea = v.e.querySelectorAll('scene');
-          v.itema = v.e.querySelectorAll('item');
-          this.set.scene = v.scenea.length;
-          this.set.item = v.itema.length;
-          [].forEach.call(v.scenea, (e, i) => this.sceneu({ e: e, po: { i:'column', n: 2 }}));
-          [].forEach.call(v.itema, (e, i) => this.itemu({ e: e, po: { i:'column', n: 2 }}));
+          v.rea = this.xmlo[i].querySelectorAll('row');
+          [].forEach.call([[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]], (e, i) => { /*/ top, bottom, left, right, center /*/
+            this.rco.dr = this.rco.dr + e[0] < 0 ? v.rea.length - 1 : (this.rco.dr + e[0])%v.rea.length;
+            v.cea = v.rea[this.rco.dr].querySelectorAll('column');
+            this.rco.dc = this.rco.dc + e[1] < 0 ? v.cea.length - 1 : (this.rco.dc + e[1])%v.cea.length;
+            v.e = v.cea[this.rco.dc];
+            
+            v.scenea = v.e.querySelectorAll('scene');
+            v.itema = v.e.querySelectorAll('item');
+            this.set.scene = v.scenea.length;
+            this.set.item = v.itema.length;
+
+            if(Math.round((i + 1)/2) - 1){
+              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2 }}));
+              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2 }}));
+
+            } else {
+              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i }}));
+              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i }}));
+            }
+          });
         }
       };
       const pagei = new pagey({});
