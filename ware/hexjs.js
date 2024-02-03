@@ -268,7 +268,27 @@
 
           'htmlu': v => {},
 
-          'txtu': v => {}
+          'txtu': v => {},
+          
+          'load': async v => {
+            const { f } = v; /*/ { f: object } /*/
+            v.fonts = {};
+
+            v.fonts[f.n] = new FontFace('PlayTangram M', `url(/fonts/${f.n + f.t})`); /*/ { n: 'PlayTangram', t: '.ttf' } /*/
+            console.log('Font loaded: ' + f.n);
+            v.fonts[f.n.toLocaleLowerCase()]
+              .load()
+              .then(e => document.fonts.add(e))
+              .catch(e => console.log(`/*/ Failed to load font: ${e} /*/`));
+              // .then(function (loadedFont) {
+              //   document.fonts.add(loadedFont);
+              // })
+              // .catch(e => 
+              //   console.log('/// Failed to load font: ' + err);
+              // });
+          }
+          
+
         }
 
         this.fileu = async v => {
