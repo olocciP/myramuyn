@@ -16,9 +16,23 @@ func ternaryu[T any](i int, req, res T) T {
 	return req
 }
 
+func enableCors(w *http.ResponseWriter) {
+	printu("enableCors...")
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+}
+
 func main() {
+
+	hellow := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+  	w.Write([]byte("Hello World"))
+	})
+	http.Handle("/hellow/", &hellow)
+
 	fs := http.FileServer(http.Dir("./ware"))
 	http.Handle("/ware/", http.StripPrefix("/ware/", fs))
+
 	http.HandleFunc("/", serveTemplateu)
 
 	printu("Listening on :8080...")
@@ -28,15 +42,9 @@ func main() {
 	}
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET")
-	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
-}
-
 func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-
+	printu("### enableCors...")
 	lp := filepath.Join("work", "layout.html")
 	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path, "index.html")
 	fp := filepath.Join("ware/page", filepath.Clean(u))
