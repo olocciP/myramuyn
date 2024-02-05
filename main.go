@@ -28,9 +28,16 @@ func main() {
 	}
 }
 
-func serveTemplateu(w http.ResponseWriter, r *http.Request) {
-	lp := filepath.Join("work", "layout.html")
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+}
 
+func serveTemplateu(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+
+	lp := filepath.Join("work", "layout.html")
 	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path, "index.html")
 	fp := filepath.Join("ware/page", filepath.Clean(u))
 	
