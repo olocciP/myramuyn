@@ -201,11 +201,11 @@
           }
         }
 
-        const mob = v.touch;
-        const type = { start: '', move: '', end: '' };
-        type.start = mob ? 'touchstart' : 'mousedown';
-        type.move = mob ? 'touchmove' :'mousemove';
-        type.end = mob ? 'touchend' : 'mouseup';
+        this.mob = v.touch;
+        v.type = { start: '', move: '', end: '' };
+        v.type.start = this.mob ? 'touchstart' : 'mousedown';
+        v.type.move = this.mob ? 'touchmove' :'mousemove';
+        v.type.end = this.mob ? 'touchend' : 'mouseup';
 
         this.wh = { 
           w: window.innerWidth || document.body.clientWidth, 
@@ -216,26 +216,28 @@
         this.eventu = v => {
           const { b, n } = v; /*/ b: boolean, n: number /*/
 
-          const addue = e => { e.preventDefault(); addu({ e: e }); };
-          const addu = v => {
+          const sue = e => { e.preventDefault(); semu({ e: e }); };
+          const eue = e => { e.preventDefault(); semu({ e: e }); };
+          const mue = e => semu({ e: e });
+          const semu = v => {
             const { e } = v;
             
             if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
-            if(mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+            if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
             else this.xya.unshift({ x: e.clientX , y: e.clientY });
           }
 
           if(b){ /*/ b: true - addEventListener /*/
-            document.addEventListener(type.start, addue);
-            document.addEventListener(type.move, addue);
-            document.addEventListener(type.end, addue);
+            document.addEventListener(type.start, sue);
+            document.addEventListener(type.end, eue);
+            document.addEventListener(type.move, mue);
             
           } else { /*/ b: false - removeEventListener /*/
-            document.removeEventListener(type.start, addue);
-            document.removeEventListener(type.move, addue);
-            document.removeEventListener(type.end, addue);
+            document.removeEventListener(type.start, sue);
+            document.removeEventListener(type.end, eue);
+            document.removeEventListener(type.move, mue);
           }
-        }
+        };
       };
       /*/ --> Mouse & Touch client x, y /*/
 
@@ -272,8 +274,8 @@
           
           'load': async v => {
             const { f } = v; /*/ { f: object } /*/
-            v.fonts = {};
 
+            v.fonts = {};
             v.fonts[f.n] = new FontFace('PlayTangram M', `url(/fonts/${f.n + f.t})`); /*/ { n: 'PlayTangram', t: '.ttf' } /*/
             console.log('Font loaded: ' + f.n);
             v.fonts[f.n.toLocaleLowerCase()]
@@ -287,8 +289,6 @@
               //   console.log('/// Failed to load font: ' + err);
               // });
           }
-          
-
         }
 
         this.fileu = async v => {
@@ -299,6 +299,31 @@
         }
       };
       /*/ --> get server file /*/
+
+      /*/ <-- util /*/
+      const cursory = function (v) {
+        const {} = v;
+
+       
+        this.xy = v => {
+          const { xy } = v; /*/ { xy: object } /*/
+
+          this.g = '';
+        };
+
+        this.set = v => {
+          const { d } = v; /*/ { d: string } /*/
+
+          if(d.length){
+            this.g = '';
+          }else{
+
+          }
+        };
+      }
+      /*/ --> util /*/
+
+
 
       // /*/ <-- set page /*/
       // const pageo = function () {
