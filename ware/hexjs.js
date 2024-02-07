@@ -202,10 +202,10 @@
         }
 
         this.mob = v.touch;
-        v.type = { start: '', move: '', end: '' };
-        v.type.start = this.mob ? 'touchstart' : 'mousedown';
-        v.type.move = this.mob ? 'touchmove' :'mousemove';
-        v.type.end = this.mob ? 'touchend' : 'mouseup';
+        this.type = { start: '', move: '', end: '' };
+        this.type.start = this.mob ? 'touchstart' : 'mousedown';
+        this.type.move = this.mob ? 'touchmove' :'mousemove';
+        this.type.end = this.mob ? 'touchend' : 'mouseup';
 
         this.wh = { 
           w: window.innerWidth || document.body.clientWidth, 
@@ -228,14 +228,14 @@
           }
 
           if(b){ /*/ b: true - addEventListener /*/
-            document.addEventListener(type.start, sue);
-            document.addEventListener(type.end, eue);
-            document.addEventListener(type.move, mue);
+            document.addEventListener(this.type.start, sue);
+            document.addEventListener(this.type.end, eue);
+            document.addEventListener(this.type.move, mue);
             
           } else { /*/ b: false - removeEventListener /*/
-            document.removeEventListener(type.start, sue);
-            document.removeEventListener(type.end, eue);
-            document.removeEventListener(type.move, mue);
+            document.removeEventListener(this.type.start, sue);
+            document.removeEventListener(this.type.end, eue);
+            document.removeEventListener(this.type.move, mue);
           }
         };
       };
