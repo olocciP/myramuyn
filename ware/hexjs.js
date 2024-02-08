@@ -214,28 +214,34 @@
         };
         this.xya = [ /*/{ x: 0, y: 0 } /*/ ];
         this.eventu = v => {
-          const { b, n } = v; /*/ b: boolean, n: number /*/
+          const { b, n, f } = v; /*/ b: boolean, n: number, f: function /*/
 
-          const sue = e => { e.preventDefault(); semu({ e: e }); };
-          const eue = e => { e.preventDefault(); semu({ e: e }); };
-          const mue = e => semu({ e: e });
+          const semue = e => { e.preventDefault(); semu({ e: e }); };
           const semu = v => {
             const { e } = v;
-            
-            if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
-            if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-            else this.xya.unshift({ x: e.clientX , y: e.clientY });
+
+            if(e.type === this.type.end){
+              this.xya = [];
+              v.type = 'e';
+            } else {
+              v.type = e.type === this.type.start ? 's' : 'm';
+              if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
+              if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+              else this.xya.unshift({ x: e.clientX , y: e.clientY });
+            }
+
+            f({ xya: this.xya, t: v.type });
           }
 
           if(b){ /*/ b: true - addEventListener /*/
-            document.addEventListener(this.type.start, sue);
-            document.addEventListener(this.type.end, eue);
-            document.addEventListener(this.type.move, mue);
+            document.addEventListener(this.type.start, semue, { passive: false });
+            document.addEventListener(this.type.end, semue, { passive: false });
+            document.addEventListener(this.type.move, semue, { passive: false });
             
           } else { /*/ b: false - removeEventListener /*/
-            document.removeEventListener(this.type.start, sue);
-            document.removeEventListener(this.type.end, eue);
-            document.removeEventListener(this.type.move, mue);
+            document.removeEventListener(this.type.start, semue, { passive: false });
+            document.removeEventListener(this.type.end, semue, { passive: false });
+            document.removeEventListener(this.type.move, semue, { passive: false });
           }
         };
       };
