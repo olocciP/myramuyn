@@ -1,15 +1,14 @@
 const eventy = function (v) {
   this.xya = [];
+  this.dxyu = v => {
+    };
+
   this.xyu = v => {
     const { xya, t } = v; /*/ { xya: array, t: string } /*/
 
-    if(t === 'e'){
-
-    }else{
-
-    }
-    this.xya = xya;
-    console.log(xya, t);
+    if(t === 'e') this.dxyu();
+    if(t === 's' || t === 'e') this.xya = [];
+    if(t === 's' || t === 'm') this.xya.push(xya[0])
   };
 };
 const ei = new eventy({});
@@ -24,6 +23,8 @@ geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
 
 
 const frameu = e => {
+  // console.log(ei.xya);
+
   window.requestAnimationFrame(frameu);
 }
 window.requestAnimationFrame(frameu);

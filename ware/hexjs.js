@@ -220,17 +220,18 @@
           const semu = v => {
             const { e } = v;
 
-            if(e.type === this.type.end){
+            if(e.type === this.type.end) {
               this.xya = [];
               v.type = 'e';
+              f({ xya: this.xya, t: v.type });
             } else {
               v.type = e.type === this.type.start ? 's' : 'm';
-              if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
-              if(this.mob) this.xya.unshift({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-              else this.xya.unshift({ x: e.clientX , y: e.clientY });
+              if(this.xya.length && v.type === 'm' || v.type === 's'){
+                if(this.xya.length > n && n /*/ n: Array Length /*/) this.xya.pop();
+                this.xya.unshift({ x: this.mob ? e.touches[0].clientX : e.clientX, y: this.mob ? e.touches[0].clientY : e.clientY });
+                f({ xya: this.xya, t: v.type });
+              }
             }
-
-            f({ xya: this.xya, t: v.type });
           }
 
           if(b){ /*/ b: true - addEventListener /*/
