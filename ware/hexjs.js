@@ -195,6 +195,13 @@
             }
           });
         }
+
+        this.trans = v => {
+          const { l, a , n } = v; /*/ l: number, a: number, n: number /*/
+  
+          v.n = !n ? parseInt(l/(this.who.w*0.05)): n;
+          if(v.n) console.log('###', l, a, v.n);
+        }
       };
       const pagei = new pagey({});
       /*/ --> Set Page /*/
@@ -328,7 +335,9 @@
 
       /*/ <-- Set /*/
       const sety = function (v) {
-        
+        this.p = {
+          trans: v => pagei.trans(v),
+        };
       }
       /*/ --> Set /*/
 
@@ -349,15 +358,9 @@
           },
         };
       }
-      /*/ --> Helper /**/
-
+      /*/ --> Helper /*/
     };
-
-
-
     /*/ --> Modules Function Structure /*/
-
-   
 
     /*/ <-- Modules Function Define /*/
     const mc = {}; /*/ Modules Cache /*/

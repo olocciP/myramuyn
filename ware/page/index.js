@@ -1,4 +1,7 @@
 const hi = new x6.helpy({});
+const cxyi = new x6.cxyy({});
+const geti = new x6.gety({});
+const seti = new x6.sety({});
 
 const eventy = function (v) {
   this.xya = [];
@@ -15,18 +18,18 @@ const eventy = function (v) {
     return { b: v.b };
   };
 
-  this.flipu = v => {
+  this.pageu = v => {
     const {} = v;
 
     const { l, a } = hi.m.d({ sxy: this.xya[this.xya.length - 1], exy: this.xya[0] });
-    console.log(l, a);
+    seti.p.trans({ l: l, a: a, n: 0 }); /*/ 0 is 0 ~ 19 page /*/
   };
 
   this.dxyu = v => {
     const { t } = v;
 
     if(t === 'e') {
-      if(!this.btnu({}).b) this.flipu({});
+      if(!this.btnu({}).b) this.pageu({});
     } else {
 
     }
@@ -42,10 +45,8 @@ const eventy = function (v) {
 };
 const ei = new eventy({});
 
-const cxyi = new x6.cxyy({}); /*/ client x, y /*/
 cxyi.eventu({ b: true, n: 2, f: ei.xyu });
 
-const geti = new x6.gety({});
 geti.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
 geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
 
