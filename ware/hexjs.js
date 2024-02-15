@@ -53,6 +53,8 @@
       });
 
       /*/ <-- Utility /*/
+      const roundu = v => Math.round(v.n*100)/100;
+      
       const dxyu = v => { /*/ Distance and Angle between two points /*/
         const { sxy, exy } = v;
 
@@ -62,7 +64,7 @@
         v.a = Math.atan2(v.dy, v.dx)*180/Math.PI; /*/ angle in degree, 9 o'clock is 0 /*/
         //if (v.da < 0) v.da += 360; 
 
-        return { l: v.l, a: v.a } ;
+        return { l: roundu({ n:v.l }), a: roundu({ n:v.a }) } ;
       }
 
       const crtelu = v => { /*/ Create Element /*/
@@ -336,6 +338,7 @@
 
         this.m = { /*/ math /*/ 
           d: v => dxyu(v),
+          r: v => roundu(v),
         };
 
         this.c = { /*/ cursor /*/
