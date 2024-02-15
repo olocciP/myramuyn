@@ -17,9 +17,10 @@
 
       req.d(es, {
         cxyy: /*/ Mouse & Touch client x, y /*/ () => im.cxyy, 
-        gety: /*/ Get server file xml, json, svg /*/ () => im.gety,
+        gety: /*/ Get /*/ () => im.gety,
+        sety: /*/ Set /*/ () => im.sety,
+        helpy: /*/ Helper /*/ () => im.helpy,
         // Play: (/*/ Imported Module /*/) => im.Play,
-        // Page: (/*/ Imported Module /*/) => im.Page,
         // Part: (/*/ Imported Module /*/) => im.Part,
         // Pack: (/*/ Imported Module /*/) => im.Pack,
         // Plot: (/*/ Imported Module /*/) => im.Plot,
@@ -43,14 +44,28 @@
       req.d(es, {
         cxyy: () => cxyy,
         gety: () => gety,
+        sety: () => sety,
+        helpy: () => helpy,
         // Part: () => Part,
         // Pack: () => Pack,
         // Plot: () => Plot,
         // Plan: () => Plan,
       });
 
-      /*/ <-- Utile /*/
-      const crtelu = v => {
+      /*/ <-- Utility /*/
+      const dxyu = v => { /*/ Distance and Angle between two points /*/
+        const { sxy, exy } = v;
+
+        v.dy = exy.y - sxy.y;
+        v.dx = exy.x - sxy.x;
+        v.l = Math.sqrt(v.dx*v.dx + v.dy*v.dy);
+        v.a = Math.atan2(v.dy, v.dx)*180/Math.PI; /*/ angle in degree, 9 o'clock is 0 /*/
+        //if (v.da < 0) v.da += 360; 
+
+        return { l: v.l, a: v.a } ;
+      }
+
+      const crtelu = v => { /*/ Create Element /*/
         const { p, e, i, c } = v; /*/ p: element, e: string, i: string, c: element /*/
 
         v.e = document.createElement(e /*/ e: Element Type /*/); 
@@ -64,7 +79,7 @@
         return v.e;
       }
 
-      const mimeo = {
+      const mimeo = { /*/ Mime Type /*/
         'xml': 'application/xml',
         'json': 'application/json',
         'svg': 'image/svg+xml',
@@ -72,7 +87,7 @@
         'txt': 'text/plain' 
       }
 
-      const getfileu = async v => {
+      const getfileu = async v => { /*/ Get network file /*/
         const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
 
         v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
@@ -82,7 +97,7 @@
        
         return v.d;
       }
-      /*/ --> Utile /*/
+      /*/ --> Utility /*/
 
       /*/ <-- Set Page /*/
       const pagey = function (v) {
@@ -113,6 +128,8 @@
           await this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
           await this.setu({ po: po });
         };
+
+        this.btna = [];
 
         this.setu = v => {
           const { po } = v;
@@ -248,7 +265,7 @@
       };
       /*/ --> Mouse & Touch client x, y /*/
 
-      /*/ <-- Get server file /*/
+      /*/ <-- Get /*/
       const gety = function (v) {
         const {} = v;
 
@@ -305,40 +322,36 @@
           mineo[x + 'u']({ d: v.d, i: i });
         }
       };
-      /*/ --> get server file /*/
+      /*/ --> Get /*/
 
-      /*/ <-- util /*/
-      const cursory = function (v) {
+      /*/ <-- Set /*/
+      const sety = function (v) {
+        
+      }
+      /*/ --> Set /*/
+
+      /*/ <-- Helper /*/
+      const helpy = function (v) {
         const {} = v;
 
-       
-        this.xy = v => {
-          const { xy } = v; /*/ { xy: object } /*/
-
-          this.g = '';
+        this.m = { /*/ math /*/ 
+          d: v => dxyu(v),
         };
 
-        this.set = v => {
-          const { d } = v; /*/ { d: string } /*/
-
-          if(d.length){
-            this.g = '';
-          }else{
-
-          }
+        this.c = { /*/ cursor /*/
+          on: false,
+          xy: v => {
+            const { xy } = v; /*/ { xy: object } /*/
+  
+          },
         };
       }
-      /*/ --> util /*/
-
-
-
-      // /*/ <-- set page /*/
-      // const pageo = function () {
-      //   const scene = []
-      // }
-      // /*/ --> set page /*/
+      /*/ --> Helper /**/
 
     };
+
+
+
     /*/ --> Modules Function Structure /*/
 
    
