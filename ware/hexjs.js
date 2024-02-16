@@ -67,6 +67,15 @@
         return { l: roundu({ n:v.l }), a: roundu({ n:v.a }) } ;
       }
 
+      const cardinalu = v => { /*/ Cardinal Directions 4 or 8 /*/
+        const { a, d } = v;
+
+        v.a = Math.floor(((a < 0 ? a + 360 : a)/(360/d) + 0.5));
+        v.c = d > 4  ? ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] : ['W', 'N', 'E', 'S'];
+
+        return { a: v.c[v.a%d] };
+      };
+
       const crtelu = v => { /*/ Create Element /*/
         const { p, e, i, c } = v; /*/ p: element, e: string, i: string, c: element /*/
 
@@ -197,10 +206,13 @@
         }
 
         this.trans = v => {
-          const { l, a , n } = v; /*/ l: number, a: number, n: number /*/
+          const { l, a, n } = v; /*/ l: number, a: number, n: number /*/
   
           v.n = !n ? parseInt(l/(this.who.w*0.05)): n;
-          if(v.n) console.log('###', l, a, v.n);
+          if(v.n) {
+            v.c = cardinalu({ a: a, d: 4 }).a;
+            console.log('###', l, a, v.n, v.c);
+          }
         }
       };
       const pagei = new pagey({});
