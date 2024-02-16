@@ -87,6 +87,7 @@
           v.e.setAttribute('viewBox', `0 0 ${pagei.who.w} ${pagei.who.h}`);
           v.e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         }
+
         return v.e;
       }
 
@@ -119,6 +120,7 @@
         this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
         this.cells = {};
 
+        this.eo = {}; /*/ e: Element Object, i: class name /*/
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.set = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
@@ -211,6 +213,13 @@
           v.n = !n ? parseInt(l/(this.who.w*0.05)): n;
           if(v.n) {
             v.c = cardinalu({ a: a, d: 4 }).a;
+
+            [].forEach.call(pagei.eo.e.querySelectorAll('svg'), e => {
+              // e.classListgetAttribute
+              v.ma = e.getAttribute('transform').match(/[+-]?\d*\.?\d+/g);
+              console.log(v.ma);
+              e.setAttribute('transform', `matrix(${v.ma[0]} ${v.ma[1]} ${v.ma[2]} ${v.ma[3]} ${parseFloat(v.ma[4]) + 10*v.n} ${v.ma[5]})`);
+            });
             console.log('###', l, a, v.n, v.c);
           }
         }
@@ -292,13 +301,15 @@
 
         const mineo = {
           'xmlu': v => {
-            const { d, i } = v; /*/ d: XMLDocument /*/
+            const { d, i } = v; /*/ d: XMLDocument i: string/*/
 
             v.e = crtelu({ p: document.body, e:'div', i: i, c: document.body.firstChild });
             // [].forEach.call(['row column', 'column', 'column', 'row', 'row'], e => {
             //   crtelu({ p: v.e, e:'svg', i: e, c: v.e.firstChild });
             // });
 
+            pagei.eo.i = i;
+            pagei.eo.e = v.e;
             pagei.xmlo[i] = d;
             pagei.getu({ dr: 0, dc: 0, i: i });
           },
