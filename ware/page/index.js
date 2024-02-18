@@ -18,18 +18,18 @@ const eventy = function (v) {
     return { b: v.b };
   };
 
-  this.pageu = v => {
+  this.trans = v => {
     const {} = v;
 
     const { l, a } = hi.m.d({ sxy: this.xya[this.xya.length - 1], exy: this.xya[0] });
-    seti.p.trans({ l: l, a: a, n: 0 }); /*/ 0 is 0 ~ 19 page /*/
+    seti.p.trans({ l: l, a: a, n: 0 }); /*/ 0 is 1/20th of the  width. /*/
   };
 
   this.dxyu = v => {
     const { t } = v;
 
     if(t === 'e') {
-      if(!this.btnu({}).b) this.pageu({});
+      if(!this.btnu({}).b) this.trans({});
     } else {
 
     }
@@ -49,11 +49,3 @@ cxyi.eventu({ b: true, n: 2, f: ei.xyu });
 
 geti.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
 geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
-
-
-const frameu = e => {
-  // console.log(ei.xya);
-
-  window.requestAnimationFrame(frameu);
-}
-window.requestAnimationFrame(frameu);

@@ -126,6 +126,8 @@
         this.set = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
         this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /*/ top, bottom, left, right, center /*/
 
+        this.trano = { la: [], d: { x: 0, y: 0 }, tap: 8 };
+
         this.sceneu = async v => {
           const { e, po } = v;
           
@@ -211,18 +213,40 @@
           const { l, a, n } = v; /*/ l: number, a: number, n: number /*/
   
           v.n = !n ? parseInt(l/(this.who.w*0.05)): n;
-          if(v.n) {
+          if(v.n && !this.trano.la.length) {
             v.c = cardinalu({ a: a, d: 4 }).a;
 
-            [].forEach.call(pagei.eo.e.querySelectorAll('svg'), e => {
-              // e.classListgetAttribute
-              v.ma = e.getAttribute('transform').match(/[+-]?\d*\.?\d+/g);
-              console.log(v.ma);
-              e.setAttribute('transform', `matrix(${v.ma[0]} ${v.ma[1]} ${v.ma[2]} ${v.ma[3]} ${parseFloat(v.ma[4]) + 10*v.n} ${v.ma[5]})`);
-            });
-            console.log('###', l, a, v.n, v.c);
+            for(let i = 0; i < v.n; i++){ 
+              this.trano.la.push(this.who.w);
+              this.trano.d.x = v.c === 'W' ? -1 : v.c === 'E' ? 1 : 0;
+              this.trano.d.y = v.c === 'N' ? -1 : v.c === 'S' ? 1 : 0;
+            }
           }
         }
+
+        this.slideu = v => {
+          const {} = v;
+
+          [].forEach.call(pagei.eo.e.querySelectorAll('svg'), e => {
+            // e.classListgetAttribute
+            v.ma = e.getAttribute('transform').match(/[+-]?\d*\.?\d+/g);
+            v.ma[4] = (parseFloat(v.ma[4]) + this.trano.tap*this.trano.d.x).toString();
+
+            
+            e.setAttribute('transform', `matrix(${v.ma.join(' ')})`);
+          });
+          console.log(this.trano.la);
+          this.trano.la[0] -= this.trano.la[0] > this.trano.tap ? this.trano.tap : this.trano.la[0];
+          if(!this.trano.la[0]) { this.trano.la.shift(); } 
+        }
+
+        this.frameu = e => {
+          if(this.trano.la.length) this.slideu({});
+
+
+          window.requestAnimationFrame(this.frameu);
+        }
+        window.requestAnimationFrame(this.frameu);
       };
       const pagei = new pagey({});
       /*/ --> Set Page /*/
