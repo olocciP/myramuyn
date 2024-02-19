@@ -115,18 +115,20 @@
       const pagey = function (v) {
         const {} = v;
 
-        this.xmlo = {};
-        this.who = { w: 0, h: 0, r: 1 };
-        this.rco = { r: 0, c: 0, dr: 0, dc: 0 };
-        this.cells = {};
-
+        /*/ XML Object /*/
+        this.xmlo = {}; 
+        /*/ Page Objects /*/
+        this.who = { w: 0, h: 0, r: 1/3 }; /*/ w: Width, h: Height, r: Ratio /*/
+        this.rco = { r: 0, c: 0, dr: 0, dc: 0 }; /*/ r: Row, c: Column, dr: Delta Row, dc: Derivative Column /*/
+        this.pa = {}; /*/ each page : Page Array /*/
+        /*/ Element Objects /*/
         this.eo = {}; /*/ e: Element Object, i: class name /*/
         this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
         this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
-        this.set = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
+        this.seto = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
         this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /*/ top, bottom, left, right, center /*/
-
-        this.trano = { la: [], d: { x: 0, y: 0 }, tap: 8 };
+        /*/ Transition Object /*/
+        this.tro = { la: [], d: { x: 0, y: 0 }, r: 8, t: 0 }; /*/ la: Length per page, d: Direction, r: Ratio, t: transition length /*/
 
         this.sceneu = async v => {
           const { e, po } = v;
@@ -149,20 +151,18 @@
         this.setu = v => {
           const { po } = v;
 
-          if(this.sceneo[po.i][po.n].length === this.set.scene[po.i][po.n] && this.itemo[po.i][po.n].length === this.set.item[po.i][po.n]){
-            this.set.scene[po.i][po.n] = 0;
-            this.set.item[po.i][po.n] = 0;
+          if(this.sceneo[po.i][po.n].length === this.seto.scene[po.i][po.n] && this.itemo[po.i][po.n].length === this.seto.item[po.i][po.n]){
+            this.seto.scene[po.i][po.n] = 0;
+            this.seto.item[po.i][po.n] = 0;
           } else {
             return;
           }
 
           this.who.w = this.who.w !== document.body.clientWidth ? document.body.clientWidth : this.who.w;
           this.who.h = this.who.h !== document.body.clientHeight ? document.body.clientHeight : this.who.h;
-          if(this.who.r){
-            v.a = [`<svg transform="matrix(0.33 0 0 0.33 ${this.who.w*0.33*this.xya[po.c][0]} ${this.who.h*0.33*this.xya[po.c][1]})">`];
-          } else {
-            v.a = [`<svg transform="matrix(1 0 0 1 ${this.who.w*this.xya[po.c][0]} ${this.who.h*this.xya[po.c][1]})">`];
-          }
+          v.a = [`<svg transform="matrix(${this.who.r} 0 0 ${this.who.r} ${this.who.w*this.who.r*this.xya[po.c][0]} ${this.who.h*this.who.r*this.xya[po.c][1]})">`];
+          this.tro.t = this.who.w > this.who.h ? this.who.w*0.05 : this.who.h*0.05;
+
           [].forEach.call(this.sceneo[po.i][po.n], e => v.a.push(e));
           [].forEach.call(this.itemo[po.i][po.n], e => v.a.push(e));
           v.a.push('</svg>');
@@ -175,14 +175,14 @@
         this.getu = v => {
           const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: string /*/
 
-          v.s = this.xmlo[i].querySelector('cells'); /*/ XMLDocument id /*/
-          this.cells[i] = { 
+          v.s = this.xmlo[i].querySelector('pa'); /*/ XMLDocument id /*/
+          this.pa[i] = { 
             row: { fix: v.s.getAttribute('row') }, 
             column: { fix: v.s.getAttribute('column') }
           };
 
-          this.rco.dr /*/ Row num /*/ = this.cells[i].row.fix === 'first' ? this.rco.dr = 0 : this.rco.dr + dr;
-          this.rco.dc /*/ Column num /*/ = this.cells[i].column.fix === 'first' ? this.rco.dc = 0 : this.rco.dc + dc;
+          this.rco.dr /*/ Row num /*/ = this.pa[i].row.fix === 'first' ? this.rco.dr = 0 : this.rco.dr + dr;
+          this.rco.dc /*/ Column num /*/ = this.pa[i].column.fix === 'first' ? this.rco.dc = 0 : this.rco.dc + dc;
 
           v.rea = this.xmlo[i].querySelectorAll('row');
           [].forEach.call(this.xya, (e, i) => { 
@@ -195,14 +195,14 @@
             v.itema = v.e.querySelectorAll('item');
 
             if(Math.round((i + 1)/2) - 1){
-              this.set.scene.column[i - 2] = v.scenea.length;
-              this.set.item.column[i - 2] = v.itema.length;
+              this.seto.scene.column[i - 2] = v.scenea.length;
+              this.seto.item.column[i - 2] = v.itema.length;
               [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2, c: i }}));
               [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2, c: i  }}));
 
             } else {
-              this.set.scene.row[i] = v.scenea.length;
-              this.set.item.row[i] = v.itema.length;
+              this.seto.scene.row[i] = v.scenea.length;
+              this.seto.item.row[i] = v.itema.length;
               [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i, c: i }}));
               [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i, c: i }}));
             }
@@ -212,14 +212,14 @@
         this.trans = v => {
           const { l, a, n } = v; /*/ l: number, a: number, n: number /*/
   
-          v.n = !n ? parseInt(l/(this.who.w*0.05)): n;
-          if(v.n && !this.trano.la.length) {
+          v.n = !n ? parseInt(l/(this.tro.t)): n; /*/ t: move pages by touch(mouse) length /*/
+          if(v.n && !this.tro.la.length) {
             v.c = cardinalu({ a: a, d: 4 }).a;
 
             for(let i = 0; i < v.n; i++){ 
-              this.trano.la.push(this.who.w);
-              this.trano.d.x = v.c === 'W' ? -1 : v.c === 'E' ? 1 : 0;
-              this.trano.d.y = v.c === 'N' ? -1 : v.c === 'S' ? 1 : 0;
+              this.tro.la.push(this.who.w);
+              this.tro.d.x = v.c === 'W' ? -1 : v.c === 'E' ? 1 : 0;
+              this.tro.d.y = v.c === 'N' ? -1 : v.c === 'S' ? 1 : 0;
             }
           }
         }
@@ -230,18 +230,18 @@
           [].forEach.call(pagei.eo.e.querySelectorAll('svg'), e => {
             // e.classListgetAttribute
             v.ma = e.getAttribute('transform').match(/[+-]?\d*\.?\d+/g);
-            v.ma[4] = (parseFloat(v.ma[4]) + this.trano.tap*this.trano.d.x).toString();
+            v.ma[4] = (parseFloat(v.ma[4]) + this.tro.r*this.tro.d.x).toString();
 
             
             e.setAttribute('transform', `matrix(${v.ma.join(' ')})`);
           });
-          console.log(this.trano.la);
-          this.trano.la[0] -= this.trano.la[0] > this.trano.tap ? this.trano.tap : this.trano.la[0];
-          if(!this.trano.la[0]) { this.trano.la.shift(); } 
+          console.log(this.tro.la);
+          this.tro.la[0] -= this.tro.la[0] > this.tro.r ? this.tro.r : this.tro.la[0];
+          if(!this.tro.la[0]) { this.tro.la.shift(); } 
         }
 
         this.frameu = e => {
-          if(this.trano.la.length) this.slideu({});
+          if(this.tro.la.length) this.slideu({});
 
 
           window.requestAnimationFrame(this.frameu);
