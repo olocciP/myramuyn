@@ -119,52 +119,52 @@
         this.xmlo = {}; 
         /*/ Page Objects /*/
         this.who = { w: 0, h: 0, r: 1/3 }; /*/ w: Width, h: Height, r: Ratio /*/
-        this.rco = { r: 0, c: 0, dr: 0, dc: 0 }; /*/ r: Row, c: Column, dr: Delta Row, dc: Derivative Column /*/
+        this.cro = { r: 0, c: 0, dr: 0, dc: 0 }; /*/ c: Column, r: Row, dc: Derivative Column, dr: Delta Row /*/
         this.pa = {}; /*/ each page : Page Array /*/
         /*/ Element Objects /*/
         this.eo = {}; /*/ e: Element Object, i: class name /*/
-        this.sceneo = { row: [[],[]], column: [[],[],[]], b: 1 };
-        this.itemo = { row: [[],[]], column: [[],[],[]], b: 1 };
-        this.seto = { scene: { row: [0, 0], column: [0, 0, 0] }, item: { row: [0, 0], column: [0, 0, 0] }};
+        this.sceneo = { column: [[],[],[]], row: [[],[]], b: 1 };
+        this.itemo = { column: [[],[],[]], row: [[],[]], b: 1 };
+        this.seto = { scene: { column: [0, 0, 0], row: [0, 0] }, item: { column: [0, 0, 0], row: [0, 0] }}; /*/ scene, item length ??? /*/
         this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /*/ top, bottom, left, right, center /*/
         /*/ Transition Object /*/
         this.tro = { la: [], d: { x: 0, y: 0 }, r: 8, t: 0 }; /*/ la: Length per page, d: Direction, r: Ratio, t: transition length /*/
 
         this.sceneu = async v => {
-          const { e, po } = v;
+          const { x, eo } = v;
           
-          v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          await this.sceneo[po.i][po.n].push(v.d.documentElement.innerHTML);
-          await this.setu({ po: po });
+          v.d = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') }); /*/ path, index, extension /*/
+          await this.sceneo[eo.i][eo.n].push(v.d.documentElement.innerHTML);
+          await this.setu({ eo: eo });
         };
         
         this.itemu = async v => {
-          const { e, po } = v;
+          const { x, eo } = v;
 
-          v.d = await getfileu({ p: e.getAttribute('p'), i: e.getAttribute('i'), x: e.getAttribute('x') });
-          await this.itemo[po.i][po.n].push(v.d.documentElement.innerHTML);
-          await this.setu({ po: po });
+          v.d = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') });
+          await this.itemo[eo.i][eo.n].push(v.d.documentElement.innerHTML);
+          await this.setu({ eo: eo });
         };
 
         this.btna = [];
 
         this.setu = v => {
-          const { po } = v;
+          const { eo } = v; /*/ i: column or row, n: column or row Number, c: element Counter /*/
 
-          if(this.sceneo[po.i][po.n].length === this.seto.scene[po.i][po.n] && this.itemo[po.i][po.n].length === this.seto.item[po.i][po.n]){
-            this.seto.scene[po.i][po.n] = 0;
-            this.seto.item[po.i][po.n] = 0;
+          if(this.sceneo[eo.i][eo.n].length === this.seto.scene[eo.i][eo.n] && this.itemo[eo.i][eo.n].length === this.seto.item[eo.i][eo.n]){
+            this.seto.scene[eo.i][eo.n] = 0;
+            this.seto.item[eo.i][eo.n] = 0;
           } else {
             return;
           }
 
           this.who.w = this.who.w !== document.body.clientWidth ? document.body.clientWidth : this.who.w;
           this.who.h = this.who.h !== document.body.clientHeight ? document.body.clientHeight : this.who.h;
-          v.a = [`<svg transform="matrix(${this.who.r} 0 0 ${this.who.r} ${this.who.w*this.who.r*this.xya[po.c][0]} ${this.who.h*this.who.r*this.xya[po.c][1]})">`];
+          v.a = [`<svg transform="matrix(${this.who.r} 0 0 ${this.who.r} ${this.who.w*this.who.r*this.xya[eo.c][0]} ${this.who.h*this.who.r*this.xya[eo.c][1]})">`];
           this.tro.t = this.who.w > this.who.h ? this.who.w*0.05 : this.who.h*0.05;
 
-          [].forEach.call(this.sceneo[po.i][po.n], e => v.a.push(e));
-          [].forEach.call(this.itemo[po.i][po.n], e => v.a.push(e));
+          [].forEach.call(this.sceneo[eo.i][eo.n], e => v.a.push(e));
+          [].forEach.call(this.itemo[eo.i][eo.n], e => v.a.push(e));
           v.a.push('</svg>');
 
           v.p = document.querySelector('div');
@@ -173,38 +173,43 @@
         };
 
         this.getu = v => {
-          const { dr, dc, i  } = v; /*/ dr: number, dc: number, i: string /*/
+          const { dc, dr, i } = v; /*/ dr: number, dc: number, i: string /*/
 
-          v.s = this.xmlo[i].querySelector('pa'); /*/ XMLDocument id /*/
+          v.s = this.xmlo[i].querySelector('pa'); /*/ i: xmldocument Id /*/
           this.pa[i] = { 
-            row: { fix: v.s.getAttribute('row') }, 
-            column: { fix: v.s.getAttribute('column') }
+            column: { fix: v.s.getAttribute('column') },
+            row: { fix: v.s.getAttribute('row') }
           };
 
-          this.rco.dr /*/ Row num /*/ = this.pa[i].row.fix === 'first' ? this.rco.dr = 0 : this.rco.dr + dr;
-          this.rco.dc /*/ Column num /*/ = this.pa[i].column.fix === 'first' ? this.rco.dc = 0 : this.rco.dc + dc;
-
+          this.cro.dc /*/ Column num /*/ = this.pa[i].column.fix === 'first' ? 0 : this.cro.dc + dc;
+          this.cro.dr /*/ Row num /*/ = this.pa[i].row.fix === 'first' ? 0 : this.cro.dr + dr;
+          
           v.rea = this.xmlo[i].querySelectorAll('row');
-          [].forEach.call(this.xya, (e, i) => { 
-            this.rco.dr = this.rco.dr + e[0] < 0 ? v.rea.length - 1 : (this.rco.dr + e[0])%v.rea.length;
-            v.cea = v.rea[this.rco.dr].querySelectorAll('column');
-            this.rco.dc = this.rco.dc + e[1] < 0 ? v.cea.length - 1 : (this.rco.dc + e[1])%v.cea.length;
-            v.e = v.cea[this.rco.dc];
+          [].forEach.call(this.xya, (e, i) => {
+            v.dr = this.cro.dr + e[0] < 0 ? v.rea.length - 1 : (this.cro.dr + e[0])%v.rea.length;
+            v.cea = v.rea[v.dr].querySelectorAll('column');
+            v.dc = this.cro.dc + e[1] < 0 ? v.cea.length - 1 : (this.cro.dc + e[1])%v.cea.length;
+            v.e = v.cea[v.dc];
+
+            if(i === this.xya.length - 1){
+              this.cro.dc = v.dc;
+              this.cro.dr = v.dr;
+            }
             
             v.scenea = v.e.querySelectorAll('scene');
             v.itema = v.e.querySelectorAll('item');
 
-            if(Math.round((i + 1)/2) - 1){
-              this.seto.scene.column[i - 2] = v.scenea.length;
+            if(Math.round((i + 1)*0.5) - 1){ /*/ 0, 0, 1, 1, 2 /*/
+              this.seto.scene.column[i - 2] = v.scenea.length;  /*/ 1, 2, 3 /*/
               this.seto.item.column[i - 2] = v.itema.length;
-              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'column', n: i - 2, c: i }}));
-              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'column', n: i - 2, c: i  }}));
+              [].forEach.call(v.scenea, e => this.sceneu({ x: e, eo: { i:'column', n: i - 2, c: i }})); /*/ Load each svg file on server /*/
+              [].forEach.call(v.itema, e => this.itemu({ x: e, eo: { i:'column', n: i - 2, c: i  }}));
 
             } else {
-              this.seto.scene.row[i] = v.scenea.length;
+              this.seto.scene.row[i] = v.scenea.length; /*/ 1, 2 /*/
               this.seto.item.row[i] = v.itema.length;
-              [].forEach.call(v.scenea, e => this.sceneu({ e: e, po: { i:'row', n: i, c: i }}));
-              [].forEach.call(v.itema, e => this.itemu({ e: e, po: { i:'row', n: i, c: i }}));
+              [].forEach.call(v.scenea, e => this.sceneu({ x: e, eo: { i:'row', n: i, c: i }}));
+              [].forEach.call(v.itema, e => this.itemu({ x: e, eo: { i:'row', n: i, c: i }}));
             }
           });
         }
@@ -217,7 +222,7 @@
             v.c = cardinalu({ a: a, d: 4 }).a;
 
             for(let i = 0; i < v.n; i++){ 
-              this.tro.la.push(this.who.w);
+              this.tro.la.push(this.who.w*this.who.r);
               this.tro.d.x = v.c === 'W' ? -1 : v.c === 'E' ? 1 : 0;
               this.tro.d.y = v.c === 'N' ? -1 : v.c === 'S' ? 1 : 0;
             }
@@ -235,14 +240,15 @@
             
             e.setAttribute('transform', `matrix(${v.ma.join(' ')})`);
           });
-          console.log(this.tro.la);
           this.tro.la[0] -= this.tro.la[0] > this.tro.r ? this.tro.r : this.tro.la[0];
-          if(!this.tro.la[0]) { this.tro.la.shift(); } 
+          if(!this.tro.la[0]) { 
+            this.tro.la.shift();
+            this.getu({ dc: this.tro.d.x, dr: 0, i: this.eo.i });
+          } 
         }
 
         this.frameu = e => {
           if(this.tro.la.length) this.slideu({});
-
 
           window.requestAnimationFrame(this.frameu);
         }

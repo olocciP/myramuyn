@@ -22,7 +22,7 @@ const eventy = function (v) {
     const {} = v;
 
     const { l, a } = hi.m.d({ sxy: this.xya[this.xya.length - 1], exy: this.xya[0] });
-    seti.p.trans({ l: l, a: a, n: 0 }); /*/ 0 is 1/20th of the  width. /*/
+    seti.p.trans({ l: l, a: a, n: 0 }); /*/ 0 is 1/20th of the width. /*/
   };
 
   this.dxyu = v => {
@@ -46,6 +46,6 @@ const eventy = function (v) {
 const ei = new eventy({});
 
 cxyi.eventu({ b: true, n: 2, f: ei.xyu });
-
-geti.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
 geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
+geti.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
+

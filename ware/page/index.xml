@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pa row="current" column="first"> <!-- Each Page : Page Array -->
+<pa row="first" column="current"> <!-- Each Page : Page Array -->
   <row> <!-- Portrait Orientation -->
     <column> <!-- Landscape Orientation -->
       <scene i="index" x="svg" p="/ware/scene" xy="0,0" e=''/>
