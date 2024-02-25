@@ -103,11 +103,8 @@
         const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
 
         v.f = await fetch ([p /*/ path /*/, i + '.' + x /*/ id & extension /*/].join('/') /*/ url /*/ , { cache: 'default' });
-        v.d = await v.f.text().then(e => {
-          return new DOMParser().parseFromString(e, mimeo[x]);
-        });
-       
-        return v.d;
+        v.e = await v.f.text().then(e => new DOMParser().parseFromString(e.replace(/(?<=\>)(\s+)/g , ''), mimeo[x]));
+        return { e: v.e /*/ element /*/ };
       }
       /*/ --> Utility /*/
 
@@ -133,16 +130,16 @@
         this.sceneu = async v => {
           const { x, eo } = v;
           
-          v.d = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') }); /*/ path, index, extension /*/
-          await this.sceneo[eo.i][eo.n].push(v.d.documentElement.innerHTML);
+          const { e } = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') }); /*/ path, index, extension /*/
+          await this.sceneo[eo.i][eo.n].push(e.documentElement.innerHTML);
           await this.setu({ eo: eo });
         };
         
         this.itemu = async v => {
           const { x, eo } = v;
 
-          v.d = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') });
-          await this.itemo[eo.i][eo.n].push(v.d.documentElement.innerHTML);
+          const { e } = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') });
+          await this.itemo[eo.i][eo.n].push(e.documentElement.innerHTML);
           await this.setu({ eo: eo });
         };
 
@@ -160,7 +157,7 @@
 
           this.who.w = this.who.w !== document.body.clientWidth ? document.body.clientWidth : this.who.w;
           this.who.h = this.who.h !== document.body.clientHeight ? document.body.clientHeight : this.who.h;
-          v.a = [`<svg transform="matrix(${this.who.r} 0 0 ${this.who.r} ${this.who.w*this.who.r*this.xya[eo.c][0]} ${this.who.h*this.who.r*this.xya[eo.c][1]})">`];
+          v.a = [`<svg class="${eo.i}_${eo.n}" transform="matrix(${this.who.r} 0 0 ${this.who.r} ${this.who.w*this.who.r*this.xya[eo.c][0]} ${this.who.h*this.who.r*this.xya[eo.c][1]})">`];
           this.tro.t = this.who.w > this.who.h ? this.who.w*0.05 : this.who.h*0.05;
 
           [].forEach.call(this.sceneo[eo.i][eo.n], e => v.a.push(e));
@@ -331,7 +328,7 @@
 
         const mineo = {
           'xmlu': v => {
-            const { d, i } = v; /*/ d: XMLDocument i: string/*/
+            const { e, i } = v; /*/ d: XMLDocument i: string/*/
 
             v.e = crtelu({ p: document.body, e:'div', i: i, c: document.body.firstChild });
             // [].forEach.call(['row column', 'column', 'column', 'row', 'row'], e => {
@@ -340,17 +337,18 @@
 
             pagei.eo.i = i;
             pagei.eo.e = v.e;
-            pagei.xmlo[i] = d;
+            pagei.xmlo[i] = e;
             pagei.getu({ dr: 0, dc: 0, i: i });
           },
 
           'jsonu': v => {},
 
           'svgu': v => {
-            const { d, n } = v; /*/ d: XMLDocument /*/
+            const { e, i } = v; /*/ d: XMLDocument, i: String /*/
 
-            [].forEach.call(d.querySelectorAll('svg'), e => {
-              // console.log(e);
+            v.e = pagei.eo.e.childNodes;
+            [].forEach.call(e.querySelectorAll('svg'), e => {
+              console.log(e, e.childNodes, v.e.item(0));
             });
           },
 
@@ -358,12 +356,12 @@
 
           'txtu': v => {},
           
-          'load': async v => {
+          'loadu': async v => {
             const { f } = v; /*/ { f: object } /*/
 
             v.fonts = {};
             v.fonts[f.n] = new FontFace('PlayTangram M', `url(/fonts/${f.n + f.t})`); /*/ { n: 'PlayTangram', t: '.ttf' } /*/
-            console.log('Font loaded: ' + f.n);
+            console.log(`/*/ Font loaded: ${f.n} /*/`);
             v.fonts[f.n.toLocaleLowerCase()]
               .load()
               .then(e => document.fonts.add(e))
@@ -380,8 +378,8 @@
         this.fileu = async v => {
           const { p, i, x } = v; /*/ p: string, i: string, x: string /*/
 
-          v.d = await getfileu({ p: p, i: i, x: x });
-          mineo[x + 'u']({ d: v.d, i: i });
+          const { e } = await getfileu({ p: p, i: i, x: x });
+          await mineo[x + 'u']({ e: e, i: i });
         }
       };
       /*/ --> Get /*/
