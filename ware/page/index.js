@@ -1,6 +1,6 @@
 const hi = new x6.helpy({});
 const cxyi = new x6.cxyy({});
-const geti = new x6.gety({ r: 1 });
+const geti = new x6.gety({ r: 1/3 });
 const seti = new x6.sety({});
 
 const eventy = function (v) {
