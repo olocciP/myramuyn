@@ -1,44 +1,45 @@
-/*/ HEXJS (x6)/*/
-/*/ 0.5.0 /*/
+/* HEXJS (x6)*/
+/* 0.5.0 */
 
 (function webpackUniversalModuleDefinition(root, factory) {
-  if (typeof exports === "object" && typeof module === "object")  module.exports = factory();
-  else if (typeof define === "function" && define.amd) define("x6", [], factory);
-  else if (typeof exports === "object") exports["x6"] = factory();
-  else root["x6"] = factory();
-})( typeof self !== "undefined" ? self : typeof global !== "undefined" ? global : this, () => {
+  if (typeof exports === 'object' && typeof module === 'object')  module.exports = factory();
+  else if (typeof define === 'function' && define.amd) define('x6', [], factory);
+  else if (typeof exports === 'object') exports['x6'] = factory();
+  else root['x6'] = factory();
+})( typeof self !== 'undefined' ? self : typeof global !== 'undefined' ? global : this, () => {
   return (() => {
-    "use strict";
+    'use strict';
 
-    /*/ <-- Modules Function Registry /*/
-    const ms = {}; /*/ ModuleS /*/
+    /* <Modules Function Registry> */
+    const ms = {}; /* ModuleS */
     ms.legacy = (v) => {
-      const { m, es, req } = v; /*/ Module, ExpotrS, REQuire /*/
+      const { m, es, req } = v; /* Module, ExpotrS, REQuire */
 
       req.d(es, {
-        cxyy: /*/ Mouse & Touch client x, y /*/ () => im.cxyy, 
-        gety: /*/ Get /*/ () => im.gety,
-        sety: /*/ Set /*/ () => im.sety,
-        helpy: /*/ Helper /*/ () => im.helpy,
-        // Play: (/*/ Imported Module /*/) => im.Play,
-        // Part: (/*/ Imported Module /*/) => im.Part,
-        // Pack: (/*/ Imported Module /*/) => im.Pack,
-        // Plot: (/*/ Imported Module /*/) => im.Plot,
-        // Plan: (/*/ Imported Module /*/) => im.Plan,
+        cxyy: /* Mouse & Touch client x, y */ () => im.cxyy, 
+        gety: /* Get */ () => im.gety,
+        sety: /* Set */ () => im.sety,
+        helpy: /* Helper /*/ () => im.helpy,
+        // Play: (/* Imported Module */) => im.Play,
+        // Part: (/* Imported Module */) => im.Part,
+        // Pack: (/* Imported Module */) => im.Pack,
+        // Plot: (/* Imported Module */) => im.Plot,
+        // Plan: (/* Imported Module */) => im.Plan,
       });
-      const im /*/ Imported Module /*/ = req("commom"); 
+      const im /*/ Imported Module /*/ = req('distribution');
 
-      const globalObject = typeof req.g !== "undefined" ? req.g : typeof window !== "undefined" ? window : undefined;
-      if (typeof globalObject !== "undefined") {
+      const globalObject = typeof req.g !== 'undefined' ? req.g : typeof window !== 'undefined' ? window : undefined;
+      if (typeof globalObject !== 'undefined') {
         globalObject.x6 = globalObject.x6 || {};
         const HEXGLOBAL = globalObject.x6;
         for (let key in im) { if (!HEXGLOBAL[key]) HEXGLOBAL[key] = im[key]; }
       }
     };
-  
-    /*/ <-- Modules Function Structure /*/
-    ms.commom = (v) => {
-      const { m, es, req } = v; /*/ Module, ExpotrS, REQuire /*/
+    /* </Modules Function Registry> */
+
+    /* <Modules Function Structure> */
+    ms.distribution = v => {
+      const { m, es, req } = v; /* Module, ExpotrS, REQuire */
 
       req.r(es);
       req.d(es, {
@@ -52,22 +53,22 @@
         // Plan: () => Plan,
       });
 
-      /*/ <-- Utility /*/
+      /* <Utility> */
       const roundu = v => Math.round(v.n*100)/100;
       
-      const dxyu = v => { /*/ Distance and Angle between two points /*/
+      const dxyu = v => { /* Distance and Angle between two points */
         const { sxy, exy } = v;
 
         v.dy = exy.y - sxy.y;
         v.dx = exy.x - sxy.x;
         v.l = Math.sqrt(v.dx*v.dx + v.dy*v.dy);
-        v.a = Math.atan2(v.dy, v.dx)*180/Math.PI; /*/ angle in degree, 9 o'clock is 0 /*/
+        v.a = Math.atan2(v.dy, v.dx)*180/Math.PI; /* angle in degree, 9 o'clock is 0 */
         //if (v.da < 0) v.da += 360; 
 
         return { l: roundu({ n:v.l }), a: roundu({ n:v.a }) } ;
       }
 
-      const cardinalu = v => { /*/ Cardinal Directions 4 or 8 /*/
+      const cardinalu = v => { /* Cardinal Directions 4 or 8 */
         const { a, d } = v;
 
         v.a = Math.floor(((a < 0 ? a + 360 : a)/(360/d) + 0.5));
@@ -76,12 +77,12 @@
         return { a: v.c[v.a%d] };
       };
 
-      const crtelu = v => { /*/ Create Element /*/
-        const { p, e, i, c } = v; /*/ p: element, e: string, i: string, c: element /*/
+      const crtelu = v => { /* Create Element */
+        const { p, e, i, c } = v; /* p: element, e: string, i: string, c: element */
 
-        v.e = document.createElement(e /*/ e: Element Type /*/); 
-        if(i.length) v.e.setAttribute('class', i /*/ i: Id /*/); 
-        p.insertBefore(v.e, c /*/ p: Parent Element, c: Current Element /*/);
+        v.e = document.createElement(e /* e: Element Type */); 
+        if(i.length) v.e.setAttribute('class', i /* i: Id */); 
+        p.insertBefore(v.e, c /* p: Parent Element, c: Current Element */);
 
         if(e ==='svg'){
           v.e.setAttribute('viewBox', `0 0 ${pagei.who.w} ${pagei.who.h}`);
@@ -91,7 +92,7 @@
         return v.e;
       }
 
-      const mimeo = { /*/ Mime Type /*/
+      const mimeo = { /* Mime Type */
         'xml': 'application/xml',
         'json': 'application/json',
         'svg': 'image/svg+xml',
@@ -106,31 +107,34 @@
         v.e = await v.f.text().then(e => new DOMParser().parseFromString(e.replace(/(?<=\>)(\s+)/g , ''), mimeo[x]));
         return { e: v.e /*/ element /*/ };
       }
-      /*/ --> Utility /*/
+      /* </Utility> */
 
-      /*/ <-- Set Page /*/
+      /* <Set Page> */
       const pagey = function (v) {
         const {} = v;
 
-        /*/ XML Object /*/
-        this.xmlo = {}; 
-        /*/ Page Objects /*/
-        this.who = { w: 0, h: 0, r: 1/3 }; /*/ w: Width, h: Height, r: Ratio /*/
-        this.cro = { r: 0, c: 0, dr: 0, dc: 0 }; /*/ c: Column, r: Row, dc: Derivative Column, dr: Delta Row /*/
-        this.pa = {}; /*/ each page : Page Array /*/
-        /*/ Element Objects /*/
-        this.eo = {}; /*/ e: Element Object, i: class name /*/
+        /* XML Object */ 
+        this.xmlo = {};
+
+        /* Page Objects */
+        this.who = { w: 0, h: 0, r: 1 }; /* w: Width, h: Height, r: Ratio */
+        this.cro = { r: 0, c: 0, dr: 0, dc: 0 }; /* c: Column, r: Row, dc: Derivative Column, dr: Delta Row */
+        this.pa = {}; /* each page : Page Array */
+
+        /* Element Objects */
+        this.eo = {}; /* e: Element Object, i: class name */
         this.sceneo = { column: [[],[],[]], row: [[],[]], b: 1 };
         this.itemo = { column: [[],[],[]], row: [[],[]], b: 1 };
-        this.seto = { scene: { column: [0, 0, 0], row: [0, 0] }, item: { column: [0, 0, 0], row: [0, 0] }}; /*/ scene, item length ??? /*/
-        this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /*/ top, bottom, left, right, center /*/
-        /*/ Transition Object /*/
-        this.tro = { la: [], d: { x: 0, y: 0 }, r: 8, t: 0 }; /*/ la: Length per page, d: Direction, r: Ratio, t: transition length /*/
+        this.seto = { scene: { column: [0, 0, 0], row: [0, 0] }, item: { column: [0, 0, 0], row: [0, 0] }}; /* scene, item length ??? */
+        this.xya = [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]]; /* top, bottom, left, right, center */
+
+        /* Transition Object */
+        this.tro = { la: [], d: { x: 0, y: 0 }, r: 8, t: 0 }; /* la: Length per page, d: Direction, r: Ratio, t: transition length */
 
         this.sceneu = async v => {
           const { x, eo } = v;
           
-          const { e } = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') }); /*/ path, index, extension /*/
+          const { e } = await getfileu({ p: x.getAttribute('p'), i: x.getAttribute('i'), x: x.getAttribute('x') }); /* path, index, extension */
           await this.sceneo[eo.i][eo.n].push(e.documentElement.innerHTML);
           await this.setu({ eo: eo });
         };
@@ -229,7 +233,7 @@
         this.slideu = v => {
           const {} = v;
 
-          [].forEach.call(pagei.eo.e.querySelectorAll('svg'), e => {
+          [].forEach.call(this.eo.e.querySelectorAll('svg'), e => {
             // e.classListgetAttribute
             v.ma = e.getAttribute('transform').match(/[+-]?\d*\.?\d+/g);
             v.ma[4] = (parseFloat(v.ma[4]) + this.tro.r*this.tro.d.x).toString();
@@ -245,6 +249,7 @@
         }
 
         this.frameu = e => {
+
           if(this.tro.la.length) this.slideu({});
 
           window.requestAnimationFrame(this.frameu);
@@ -252,22 +257,22 @@
         window.requestAnimationFrame(this.frameu);
       };
       const pagei = new pagey({});
-      /*/ --> Set Page /*/
+      /* </Set Page> */
 
-      /*/ <-- Mouse & Touch client x, y /*/
+      /* <Mouse & Touch client x, y> */
       const cxyy = function (v) {
         const {} = v;
 
         v.touch = false;
-        if ("maxTouchPoints" in navigator) {
+        if ('maxTouchPoints' in navigator) {
           v.touch = navigator.maxTouchPoints > 0;
-        } else if ("msMaxTouchPoints" in navigator) {
+        } else if ('msMaxTouchPoints' in navigator) {
           v.touch = navigator.msMaxTouchPoints > 0;
         } else {
-          v.mq = matchMedia?.("(pointer:coarse)");
-          if (v.mq?.media === "(pointer:coarse)") {
+          v.mq = matchMedia?.('(pointer:coarse)');
+          if (v.mq?.media === '(pointer:coarse)') {
             v.touch = !!v.mq.matches;
-          } else if ("orientation" in window) {
+          } else if ('orientation' in window) {
             v.touch = true;
           } else {
             v.ua = navigator.userAgent;
@@ -286,9 +291,9 @@
           h: window.innerHeight || document.body.clientHeight, 
           r: window.devicePixelRatio || 1 
         };
-        this.xya = [ /*/{ x: 0, y: 0 } /*/ ];
+        this.xya = [ /* { x: 0, y: 0 } */ ];
         this.eventu = v => {
-          const { b, n, f } = v; /*/ b: boolean, n: number, f: function /*/
+          const { b, n, f } = v; /* b: boolean, n: number, f: function */
 
           const semue = e => { e.preventDefault(); semu({ e: e }); };
           const semu = v => {
@@ -320,12 +325,13 @@
           }
         };
       };
-      /*/ --> Mouse & Touch client x, y /*/
+      /* </Mouse & Touch client x, y> */
 
-      /*/ <-- Get /*/
+      /* <Get> */
       const gety = function (v) {
-        const {} = v;
+        const { r } = v;
 
+        pagei.who.r = r;
         const mineo = {
           'xmlu': v => {
             const { e, i } = v; /*/ d: XMLDocument i: string/*/
@@ -361,11 +367,11 @@
 
             v.fonts = {};
             v.fonts[f.n] = new FontFace('PlayTangram M', `url(/fonts/${f.n + f.t})`); /*/ { n: 'PlayTangram', t: '.ttf' } /*/
-            console.log(`/*/ Font loaded: ${f.n} /*/`);
+            console.log(`/* Font loaded: ${f.n} */`);
             v.fonts[f.n.toLocaleLowerCase()]
               .load()
               .then(e => document.fonts.add(e))
-              .catch(e => console.log(`/*/ Failed to load font: ${e} /*/`));
+              .catch(e => console.log(`/* Failed to load font: ${e} */`));
               // .then(function (loadedFont) {
               //   document.fonts.add(loadedFont);
               // })
@@ -382,17 +388,19 @@
           await mineo[x + 'u']({ e: e, i: i });
         }
       };
-      /*/ --> Get /*/
+      /* </Get> */
 
-      /*/ <-- Set /*/
+      /* <Set> */
       const sety = function (v) {
+        const {} = v;
+
         this.p = {
           trans: v => pagei.trans(v),
         };
       }
-      /*/ --> Set /*/
+      /* <Set> */
 
-      /*/ <-- Helper /*/
+      /* <Helper> */
       const helpy = function (v) {
         const {} = v;
 
@@ -409,18 +417,18 @@
           },
         };
       }
-      /*/ --> Helper /*/
+      /* </Helper> /*/
     };
-    /*/ --> Modules Function Structure /*/
+    /* </Modules Function Structure> */
 
-    /*/ <-- Modules Function Define /*/
-    const mc = {}; /*/ Modules Cache /*/
+    /* <Modules Function Define> */
+    const mc = {}; /* Modules Cache */
     const req = (id) => {
-      /*/ REQuire /*/
+      /* REQuire */
       // let cachedModule = mc[id];
       // if (cachedModule !== undefined) return cachedModule.exports;
 
-      let m = (mc[id] = { es: {} }); /*/ Module, ExpotrS /*/
+      let m = (mc[id] = { es: {} }); /* Module, ExpotrS */
       ms[id]({ m: m, es: m.es, req: req });
 
       return m.es;
@@ -441,11 +449,11 @@
 
     (() => {
       req.g = (function () {
-        if (typeof globalThis === "object") return globalThis;
+        if (typeof globalThis === 'object') return globalThis;
         try {
-          return this || new Function("return this")();
+          return this || new Function('return this')();
         } catch (e) {
-          if (typeof window === "object") return window;
+          if (typeof window === 'object') return window;
         }
       })();
     })();
@@ -456,29 +464,29 @@
 
     (() => {
       req.r = (es) => {
-        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+        if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
           Object.defineProperty(es, Symbol.toStringTag, {
-            value: "Module",
+            value: 'Module',
           });
         }
         // Object.defineProperty(es, '_esModule', { value: true });
       };
     })();
 
-    let es = {}; /*/ ExportS /*/
+    let es = {}; /* ExportS */
     (() => {
       req.r(es);
       req.d(es, {
-        core: (/*/ Imported Module Legacy /*/) => iml,
-        default: (/*/ Default Export /*/) => de,
+        core: (/* Imported Module Legacy */) => iml,
+        default: (/* Default Export */) => de,
       });
 
-      const iml = req("legacy");
+      const iml = req('legacy');
       const de = iml;
     })();
    
-    es = es["default"];
-    /*/ --> Modules Function Define /*/
+    es = es['default'];
+    /* </Modules Function Define> */
 
     return es;
   })();}
