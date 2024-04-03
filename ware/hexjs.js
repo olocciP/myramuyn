@@ -117,9 +117,11 @@
         this.xmlo = {};
 
         /* Page Objects */
+        this.v = '-v 0.0.0'
         this.who = { w: 0, h: 0, r: 1 }; /* w: Width, h: Height, r: Ratio */
         this.cro = { r: 0, c: 0, dr: 0, dc: 0 }; /* c: Column, r: Row, dc: Derivative Column, dr: Delta Row */
         this.pa = {}; /* each page : Page Array */
+        console.log(this.v);
 
         /* Element Objects */
         this.eo = {}; /* e: Element Object, i: class name */
@@ -248,6 +250,12 @@
           } 
         }
 
+        this.resizeu = v => {
+          const { e } = v;
+        }
+
+        addEventListener("resize", e => this.resizeu({ e: e }));
+
         this.frameu = e => {
 
           if(this.tro.la.length) this.slideu({});
@@ -367,17 +375,11 @@
 
             v.fonts = {};
             v.fonts[f.n] = new FontFace('PlayTangram M', `url(/fonts/${f.n + f.t})`); /*/ { n: 'PlayTangram', t: '.ttf' } /*/
-            console.log(`/* Font loaded: ${f.n} */`);
+            console.log(f.n);
             v.fonts[f.n.toLocaleLowerCase()]
               .load()
               .then(e => document.fonts.add(e))
-              .catch(e => console.log(`/* Failed to load font: ${e} */`));
-              // .then(function (loadedFont) {
-              //   document.fonts.add(loadedFont);
-              // })
-              // .catch(e => 
-              //   console.log('/// Failed to load font: ' + err);
-              // });
+              .catch(e => console.log(`ailed to load font: ${e}`));
           }
         }
 
