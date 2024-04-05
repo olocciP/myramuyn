@@ -20,7 +20,6 @@ func ternaryu[T any](i int, req, res T) T {
 }
 
 func main() {
-
 	origin := http.StripPrefix("/www/", http.FileServer(http.Dir("./www")))
 	wrapped := http.HandlerFunc(func(writer http.ResponseWriter, req *http.Request) {
 		writer.Header().Set("Access-Control-Allow-Origin", "*")
