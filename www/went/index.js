@@ -47,6 +47,6 @@ const ei = new eventy({});
 
 cxyi.eventu({ b: true, n: 2, f: ei.xyu });
 
-geti.fileu({  p: '/ware/page', i: 'index', x: 'xml' });
-geti.fileu({  p: '/ware/item', i: 'logo', x: 'svg' });
+geti.fileu({  p: 'www/went', i: 'index', x: 'xml' });
+geti.fileu({  p: 'www/ware/item', i: 'logo', x: 'svg' });
 
