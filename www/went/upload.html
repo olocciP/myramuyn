@@ -1,0 +1,12 @@
+{{define "title"}}Myramyun{{end}}
+
+{{define "body"}}
+<form action="/fileupload" method="POST" enctype="multipart/form-data">
+  <label for="filetype" class="custom-file-upload">Select File</label>
+  <input id="filetype" type="file" name="file" accept=".svg, .xml" style="display: none;" />
+  <label for="filesubmit" class="custom-file-upload">Submit</label>
+  <input id="filesubmit" type="submit" value="" style="display: none;"/>
+</form>
+{{end}}
+
+{{define "footer"}}Made with Hexjs{{end}}

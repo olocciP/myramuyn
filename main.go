@@ -20,6 +20,7 @@ func ternaryu[T any](i int, req, res T) T {
 	return req
 }
 
+/* :main */
 func main() {
 	origin := http.StripPrefix("/www/", http.FileServer(http.Dir("./www")))
 	wrapped := http.HandlerFunc(func(writer http.ResponseWriter, req *http.Request) {
@@ -42,7 +43,7 @@ func main() {
 
 func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 	lp := filepath.Join("www/work", "layout.html")
-	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path, "index.html")
+	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path + ".html", "index.html")
 	fp := filepath.Join("www/went", filepath.Clean(u))
 
 	/* Return a 404 if the template doesn't exist /// */
@@ -75,14 +76,23 @@ func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 	}
 }
+/* main */
 
 
 
-
-
+/* :fileUploadHandler */
 func isValidFileType(file []byte) bool {
-	fileType := http.DetectContentType(file)
-	return s.HasPrefix(fileType, "image/") // Only allow images
+	typ := http.DetectContentType(file)
+	arr := []string{"image/svg+xml", "application/xml", "text/xml", "text/plain"}
+	r := false
+	for _, t := range arr {
+		if s.HasPrefix(typ, t) {
+			r = true // Remove the 'r :=', just assign to 'r'
+			break // Exit the loop early if a match is found
+		}
+	}
+	return r
+	// return s.HasPrefix(fileType, "image/") // Only allow images
 }
 
 func createFile(filename string) (*os.File, error) {
@@ -146,4 +156,4 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 			 http.Error(w, "Error saving the file", http.StatusInternalServerError)
 	 }
 }
-
+/* fileUploadHandler */
