@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  <g style="stroke:#fff;stroke-width:2px;stroke-linejoin:miter;stroke-linecap:square" transform="matrix(0.5, 0, 0, 0.5, 16, 8)">
+    <path style="fill:#e62d8b;" transform="translate(64, 40)" d="M -48 -24 L 0 24 L 48 -24 z"/>
+    <path style="fill:#ee743f;" transform="translate(40, 64)" d="M -24 -48 L 24 0 L -24 48 z"/>
+    <path style="fill:#e71223;" transform="translate(76, 64)" d="M -12 0 L 12 24 L 12 -24 z"/>
+    <path style="fill:#45537b;" transform="translate(100, 52)" d="M -12 -12 L 12 -36 L 12 12 L -12 36 z"/>
+    <path style="fill:#e9d226;" transform="translate(64, 88)" d="M 24 0 L 0 24 L -24 0 L 0 -24 z"/>
+    <path style="fill:#2d91b7;" transform="translate(40, 100)" d="M -24 12 L 24 12 L 0 -12 z"/>
+    <path style="fill:#7caa2a;" transform="translate(88, 88)" d="M -24 24 L 24 24 L 24 -24 z"/>
+  </g>
+</svg>
