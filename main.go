@@ -44,7 +44,7 @@ func main() {
 func serveTemplateu(w http.ResponseWriter, r *http.Request) {
 	lp := filepath.Join("www/work", "layout.html")
 	u := ternaryu(s.Compare(r.URL.Path, "/"), r.URL.Path + ".html", "index.html")
-	fp := filepath.Join("www/went", filepath.Clean(u))
+	fp := filepath.Join("www/ware", filepath.Clean(u))
 
 	/* Return a 404 if the template doesn't exist /// */
 	info, err := os.Stat(fp)
