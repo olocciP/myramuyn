@@ -1,0 +1,91 @@
+{{define "title"}}Chat Room{{end}}
+
+{{template "js"}}
+<script src="https://cdn.jsdelivr.net/npm/@grpc/grpc-web@1.0.0/dist/grpc-web-client.min.js"></script>
+{{end}}
+{{define "body"}}
+<h1>Chat Application</h1>
+
+<!-- Room Creation Form -->
+<div>
+    <h2>Create Room</h2>
+    <input type="text" id="roomName" placeholder="Room Name">
+    <button onclick="createRoom()">Create Room</button>
+</div>
+
+<!-- Join Room Form -->
+<div>
+    <h2>Join Room</h2>
+    <input type="text" id="roomId" placeholder="Room ID">
+    <input type="text" id="username" placeholder="Username">
+    <button onclick="joinRoom()">Join Room</button>
+</div>
+
+<!-- Chat Interface -->
+<div id="chatInterface" style="display:none;">
+    <h2>Chat Room <span id="currentRoom"></span></h2>
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Enter your message">
+    <button onclick="sendMessage()">Send Message</button>
+</div>
+
+<script>
+    const client = new ChatServiceClient('http://localhost:50051', null, null);
+
+    // Create Room
+    function createRoom() {
+        const roomName = document.getElementById('roomName').value;
+        const request = new CreateRoomRequest();
+        request.setRoomName(roomName);
+
+        client.createRoom(request, {}, (error, response) => {
+            if (error) {
+                alert('Error: ' + error.message);
+            } else {
+                alert('Room created with ID: ' + response.getRoomId());
+            }
+        });
+    }
+
+    // Join Room
+    function joinRoom() {
+        const roomId = document.getElementById('roomId').value;
+        const username = document.getElementById('username').value;
+        const request = new JoinRoomRequest();
+        request.setRoomId(roomId);
+        request.setUsername(username);
+
+        client.joinRoom(request, {}, (error, response) => {
+            if (error) {
+                alert('Error: ' + error.message);
+            } else {
+                alert('Joined room successfully');
+                document.getElementById('chatInterface').style.display = 'block';
+                document.getElementById('currentRoom').innerText = roomId;
+            }
+        });
+    }
+
+    // Send Message
+    function sendMessage() {
+        const roomId = document.getElementById('roomId').value;
+        const username = document.getElementById('username').value;
+        const message = document.getElementById('message').value;
+        const request = new MessageRequest();
+        request.setRoomId(roomId);
+        request.setUsername(username);
+        request.setMessage(message);
+
+        client.sendMessage(request, {}, (error, response) => {
+            if (error) {
+                alert('Error: ' + error.message);
+            } else {
+                document.getElementById('messages').innerHTML += `<p>${username}: ${message}</p>`;
+                document.getElementById('message').value = '';
+            }
+        });
+    }
+</script>
+{{end}}
+
+{{define "footer"}}Made with Hexjs{{end}}
